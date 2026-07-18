@@ -1,0 +1,89 @@
+{
+  "passed": true,
+  "n_passed": 9,
+  "n_total": 9,
+  "checks": [
+    {
+      "name": "perfect_crystal_peak_position",
+      "passed": true,
+      "detail": "peak at 26.0326\u00b0 = kinematic Bragg 26.0325\u00b0 +0.18 arcsec (dynamical refraction shift)",
+      "values": {
+        "peak_deg": 26.03258291866446,
+        "bragg_deg": 26.032532835192004,
+        "offset_arcsec": 0.18030050083979177
+      }
+    },
+    {
+      "name": "perfect_crystal_reflectivity",
+      "passed": true,
+      "detail": "peak reflectivity 0.985 (thick perfect crystal)",
+      "values": {
+        "peak_reflectivity": 0.9848668042508315
+      }
+    },
+    {
+      "name": "perfect_crystal_darwin_width",
+      "passed": true,
+      "detail": "Darwin FWHM 5.99 arcsec (GaAs 004, ~10 keV)",
+      "values": {
+        "fwhm_arcsec": 5.992113898750517
+      }
+    },
+    {
+      "name": "strained_layer_bragg_shift",
+      "passed": true,
+      "detail": "\u03b5=2e-3 layer peak shift -196.6 arcsec vs kinematic -\u03b5\u00b7tan(\u03b8_B) = -201.5 arcsec (2.4% off)",
+      "values": {
+        "measured_arcsec": -196.58857366660953,
+        "predicted_arcsec": -201.49417340756844,
+        "rel": 0.024346112138122218
+      }
+    },
+    {
+      "name": "strained_layer_shift_scales_with_strain",
+      "passed": true,
+      "detail": "shift(2e-3)/shift(1e-3) = 2.10 (expect ~2; -93.5 -> -196.6 arcsec)",
+      "values": {
+        "shift_1e-3": -93.47330205763456,
+        "shift_2e-3": -196.58857366660953,
+        "scale": 2.1031521230029435
+      }
+    },
+    {
+      "name": "instrument_broadens",
+      "passed": true,
+      "detail": "FWHM none 6.00 -> aps(12\u2033) 13.57 -> empirical 18.18 arcsec",
+      "values": {
+        "fwhm_none": 5.995216906380563,
+        "fwhm_aps": 13.567739096598075,
+        "fwhm_empirical": 18.177571120006064
+      }
+    },
+    {
+      "name": "instrument_no_new_structure",
+      "passed": true,
+      "detail": "local maxima none 1, aps 1, empirical 1 (smoothing must not add peaks)",
+      "values": {
+        "n_none": 1,
+        "n_aps": 1,
+        "n_empirical": 1
+      }
+    },
+    {
+      "name": "aps_conserves_intensity",
+      "passed": true,
+      "detail": "aps integrated-intensity ratio 0.9999 (normalized kernel)",
+      "values": {
+        "area_ratio": 0.9999125009837093
+      }
+    },
+    {
+      "name": "aps_does_not_move_peak",
+      "passed": true,
+      "detail": "aps centroid shift -0.03 arcsec (symmetric kernel)",
+      "values": {
+        "centroid_shift_arcsec": -0.030483531449476686
+      }
+    }
+  ]
+}

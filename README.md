@@ -45,6 +45,21 @@ python scripts/run.py \
 
 Reads `.npz` strain profiles from [strain-wave-simulation](https://github.com/elandahl/strain-wave-simulation). See that repo's `docs/STRAIN_PROFILE.md`.
 
+## Validation
+
+Internal, physics-based acceptance checks (perfect-crystal Darwin curve,
+strained-layer Bragg shift `Δθ = -ε·tan(θ_B)`, instrument-convolution sanity,
+and a bit-for-bit regression against the archival calculator) run before any
+external benchmarking:
+
+```bash
+python scripts/validate_xrd_physics.py        # report + figure, nonzero exit on failure
+python -m pytest tests/test_xrd_acceptance.py -q
+```
+
+See [`docs/VALIDATION.md`](docs/VALIDATION.md). Report of record:
+`docs/physics_acceptance.json`.
+
 ## Paper reproduction
 
 The full combined pipeline for the published paper remains at [thermo-elastic-gaas](https://github.com/elandahl/thermo-elastic-gaas). Chain this repo with `strain-wave-simulation` to reproduce the XRD step.
