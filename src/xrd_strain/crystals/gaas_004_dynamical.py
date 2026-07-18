@@ -40,10 +40,12 @@ def sort_complex_imag(compl):
 
 
 @njit
-def solve4thOrder(az, daz, a_sub, F, psi, gamma_0, gamma_h):
+def _solve4th_order_params(
+    az, daz, a_sub, F, psi, gamma_0, gamma_h, re, wavelength
+):
     psi_n = psi * (1 - daz / az)
 
-    gam = RE * (LAMB_0**2) / (np.pi * (a_sub**2) * az)
+    gam = re * (wavelength**2) / (np.pi * (a_sub**2) * az)
 
     chi = np.zeros((2), dtype=np.complex128)
 
@@ -78,17 +80,36 @@ def solve4thOrder(az, daz, a_sub, F, psi, gamma_0, gamma_h):
 
 
 @njit
-def xrd_slab_gaas(th_0, strain, dz, eps):
+def solve4thOrder(az, daz, a_sub, F, psi, gamma_0, gamma_h):
+    """Archival wrapper using the notebook's hard-coded constants."""
+    return _solve4th_order_params(
+        az, daz, a_sub, F, psi, gamma_0, gamma_h, RE, LAMB_0
+    )
+
+
+@njit
+def _xrd_slab_gaas_params(
+    th_0,
+    strain,
+    dz,
+    eps,
+    a_gaas,
+    h_gaas,
+    f_gaas,
+    re,
+    wavelength,
+    k_0,
+):
     rad_0 = th_0 * np.pi / 180
 
     k_0_vec = np.zeros((3, len(rad_0)), dtype=np.float64)
-    k_0_vec[0] = K_0 * np.cos(rad_0)
+    k_0_vec[0] = k_0 * np.cos(rad_0)
     k_0_vec[1] = np.zeros(len(rad_0), dtype=np.float64)
-    k_0_vec[2] = K_0 * np.sin(rad_0)
+    k_0_vec[2] = k_0 * np.sin(rad_0)
 
     gamma_0 = np.sin(rad_0)
-    psi = H_GAAS @ SURFACE_NORMAL / K_0
-    alpha = (2 * k_0_vec.T @ H_GAAS + H_GAAS @ H_GAAS) / (K_0**2)
+    psi = h_gaas @ SURFACE_NORMAL / k_0
+    alpha = (2 * k_0_vec.T @ h_gaas + h_gaas @ h_gaas) / (k_0**2)
     gamma_h = np.sqrt((gamma_0 + psi) ** 2 - alpha)
 
     Ni = np.zeros(len(strain))
@@ -140,17 +161,33 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
 
     for i in range(0, N_layer):
         if i <= Ni[l]:
-            da = strain[i] * A_GAAS
-            u[m], v[m], w[m] = solve4thOrder(
-                A_GAAS, da, A_GAAS, F_GAAS, psi, gamma_0, gamma_h
+            da = strain[i] * a_gaas
+            u[m], v[m], w[m] = _solve4th_order_params(
+                a_gaas,
+                da,
+                a_gaas,
+                f_gaas,
+                psi,
+                gamma_0,
+                gamma_h,
+                re,
+                wavelength,
             )
             m += 1
         elif i > Ni[l] and i < Nf[l]:
             pass
         elif i == Nf[l]:
-            da = strain[i] * A_GAAS
-            u[m], v[m], w[m] = solve4thOrder(
-                A_GAAS, da, A_GAAS, F_GAAS, psi, gamma_0, gamma_h
+            da = strain[i] * a_gaas
+            u[m], v[m], w[m] = _solve4th_order_params(
+                a_gaas,
+                da,
+                a_gaas,
+                f_gaas,
+                psi,
+                gamma_0,
+                gamma_h,
+                re,
+                wavelength,
             )
             m += 1
             l += 1
@@ -173,10 +210,10 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
                 S[m][j_idx][3] = w[m][j_idx].copy()
                 S_inv[m][j_idx] = inv(S[m][j_idx])
 
-                A[m][j_idx][0][0] = np.exp(-1j * u[m][j_idx][0] * K_0 * dz)
-                A[m][j_idx][1][1] = np.exp(-1j * u[m][j_idx][1] * K_0 * dz)
-                A[m][j_idx][2][2] = np.exp(-1j * u[m][j_idx][2] * K_0 * dz)
-                A[m][j_idx][3][3] = np.exp(-1j * u[m][j_idx][3] * K_0 * dz)
+                A[m][j_idx][0][0] = np.exp(-1j * u[m][j_idx][0] * k_0 * dz)
+                A[m][j_idx][1][1] = np.exp(-1j * u[m][j_idx][1] * k_0 * dz)
+                A[m][j_idx][2][2] = np.exp(-1j * u[m][j_idx][2] * k_0 * dz)
+                A[m][j_idx][3][3] = np.exp(-1j * u[m][j_idx][3] * k_0 * dz)
 
                 if i == 0:
                     W[j_idx] = S_inv[m - 1][j_idx] @ S[m][j_idx] @ A[m][j_idx]
@@ -192,10 +229,18 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
                 S[m][j_idx][3] = w[m][j_idx].copy()
                 S_inv[m][j_idx] = inv(S[m][j_idx])
 
-                A[m][j_idx][0][0] = np.exp(-1j * u[m][j_idx][0] * K_0 * dz * dN[l])
-                A[m][j_idx][1][1] = np.exp(-1j * u[m][j_idx][1] * K_0 * dz * dN[l])
-                A[m][j_idx][2][2] = np.exp(-1j * u[m][j_idx][2] * K_0 * dz * dN[l])
-                A[m][j_idx][3][3] = np.exp(-1j * u[m][j_idx][3] * K_0 * dz * dN[l])
+                A[m][j_idx][0][0] = np.exp(
+                    -1j * u[m][j_idx][0] * k_0 * dz * dN[l]
+                )
+                A[m][j_idx][1][1] = np.exp(
+                    -1j * u[m][j_idx][1] * k_0 * dz * dN[l]
+                )
+                A[m][j_idx][2][2] = np.exp(
+                    -1j * u[m][j_idx][2] * k_0 * dz * dN[l]
+                )
+                A[m][j_idx][3][3] = np.exp(
+                    -1j * u[m][j_idx][3] * k_0 * dz * dN[l]
+                )
 
                 if i == 0:
                     W[j_idx] = S_inv[m - 1][j_idx] @ S[m][j_idx] @ A[m][j_idx]
@@ -214,10 +259,10 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
                 S[m][j_idx][3] = w[m][j_idx].copy()
                 S_inv[m][j_idx] = inv(S[m][j_idx])
 
-                A[m][j_idx][0][0] = np.exp(-1j * u[m][j_idx][0] * K_0 * dz)
-                A[m][j_idx][1][1] = np.exp(-1j * u[m][j_idx][1] * K_0 * dz)
-                A[m][j_idx][2][2] = np.exp(-1j * u[m][j_idx][2] * K_0 * dz)
-                A[m][j_idx][3][3] = np.exp(-1j * u[m][j_idx][3] * K_0 * dz)
+                A[m][j_idx][0][0] = np.exp(-1j * u[m][j_idx][0] * k_0 * dz)
+                A[m][j_idx][1][1] = np.exp(-1j * u[m][j_idx][1] * k_0 * dz)
+                A[m][j_idx][2][2] = np.exp(-1j * u[m][j_idx][2] * k_0 * dz)
+                A[m][j_idx][3][3] = np.exp(-1j * u[m][j_idx][3] * k_0 * dz)
 
                 W[j_idx] = W[j_idx] @ S_inv[m - 1][j_idx] @ S[m][j_idx] @ A[m][j_idx]
 
@@ -235,6 +280,55 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
 
     intensity = np.abs(d) ** 2 * gamma_h / gamma_0
     return intensity
+
+
+@njit
+def xrd_slab_gaas(th_0, strain, dz, eps):
+    """Archival GaAs (004) calculator using the notebook constants."""
+    return _xrd_slab_gaas_params(
+        th_0,
+        strain,
+        dz,
+        eps,
+        A_GAAS,
+        H_GAAS,
+        F_GAAS,
+        RE,
+        LAMB_0,
+        K_0,
+    )
+
+
+def xrd_slab_gaas_with_constants(
+    th_0,
+    strain,
+    dz,
+    eps,
+    *,
+    a_gaas=A_GAAS,
+    f_gaas=F_GAAS,
+    re=RE,
+    wavelength=LAMB_0,
+):
+    """Evaluate the solver with explicit constants for benchmark studies.
+
+    This isolates sensitivity to tabulated constants without changing the
+    archival/default calculator. ``f_gaas`` is ``[F_0, F_H]``.
+    """
+    h_gaas = 8 * np.pi / a_gaas * np.array([0.0, 0.0, -1.0])
+    k_0 = 2 * np.pi / wavelength
+    return _xrd_slab_gaas_params(
+        th_0,
+        strain,
+        dz,
+        eps,
+        a_gaas,
+        h_gaas,
+        np.asarray(f_gaas, dtype=np.complex128),
+        re,
+        wavelength,
+        k_0,
+    )
 
 
 @njit

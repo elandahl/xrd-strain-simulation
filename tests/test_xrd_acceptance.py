@@ -16,7 +16,11 @@ from xrd_strain.acceptance import (
     check_strained_layer_shift,
     kinematic_bragg_deg,
 )
-from xrd_strain.crystals.gaas_004_dynamical import xrd_slab_gaas, xrd_slab_gaas_lowmem
+from xrd_strain.crystals.gaas_004_dynamical import (
+    xrd_slab_gaas,
+    xrd_slab_gaas_lowmem,
+    xrd_slab_gaas_with_constants,
+)
 
 GOLDEN = Path(__file__).parent / "data" / "gaas004_golden.npz"
 
@@ -58,6 +62,11 @@ def test_frozen_notebook_regression():
     # The low-memory path must reproduce it too.
     lowmem = xrd_slab_gaas_lowmem(th, strain, dz_ang, eps)
     np.testing.assert_allclose(lowmem, golden, rtol=0.0, atol=1e-12)
+
+    # The parameterized Tier-3 benchmark path defaults to the exact archival
+    # constants and must therefore preserve the same golden curve.
+    parameterized = xrd_slab_gaas_with_constants(th, strain, dz_ang, eps)
+    np.testing.assert_allclose(parameterized, golden, rtol=0.0, atol=1e-12)
 
 
 def test_kinematic_bragg_angle_is_sane():

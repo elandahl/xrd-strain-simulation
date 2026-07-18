@@ -67,6 +67,8 @@ python scripts/audit_constants.py
 ```
 
 See [`docs/CONSTANTS_PROVENANCE.md`](docs/CONSTANTS_PROVENANCE.md).
+Tier-3 one-at-a-time sensitivity and Stepanov X0h comparison:
+[`docs/CONSTANTS_SENSITIVITY.md`](docs/CONSTANTS_SENSITIVITY.md).
 
 ## Paper reproduction
 

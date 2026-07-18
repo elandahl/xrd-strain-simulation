@@ -9,7 +9,7 @@ layer before fitting APS/PLS data.
 |------|------|--------|
 | **1. Formulas** | Look up textbook/paper formulas; confirm they match the code and the Sci. Rep. paper | Planned |
 | **2. Constants** | Provenance table for every hard-coded constant at the correct energy, reflection, material, and temperature | **In progress** — see [CONSTANTS_PROVENANCE.md](CONSTANTS_PROVENANCE.md) |
-| **3. Internal checks vs external refs** | Re-score perfect-crystal Darwin curve and strained-layer Bragg shift against literature formulas (Authier, kinematic) using *audited* constants | Planned (after Tier 2) |
+| **3. Internal checks vs external refs** | Re-score perfect-crystal Darwin curve and strained-layer Bragg shift against literature formulas and Stepanov X0h using *audited* constants | **Constants sensitivity complete** — see [CONSTANTS_SENSITIVITY.md](CONSTANTS_SENSITIVITY.md); residual formula audit remains |
 | **4. Cross-code / arbitrary strain** | Compare against other dynamical XRD methods (e.g. Stepanov GID_sl / X0h, `xrayutilities`) on synthetic and paper strain fields; eventually APS/PLS data | Planned (later) |
 
 ## Suggested order of work

@@ -132,11 +132,15 @@ calculator is clearly built for GaAs (004) at 10 keV, matching the paper.
 The open question is how much the table-vintage differences move the rocking
 curve relative to experimental noise and instrument blur.
 
-## Next steps (Tier 3)
+## Tier-3 result
 
-1. Recompute Darwin width and peak reflectivity with Henke+WK constants;
-   compare to the current acceptance numbers (~5.9″ FWHM, R≈0.985).
-2. Sensitivity: vary \(a\), \(f_0\), \(f''\) one-at-a-time within the
-   discrepancies above; record Δ(FWHM), Δ(peak), Δ(layer shift).
-3. Only then decide whether to update the hard-coded factors or keep them as
-   the archival notebook values with a documented offset.
+Completed: see [`CONSTANTS_SENSITIVITY.md`](CONSTANTS_SENSITIVITY.md).
+
+The main result is that modern \(a,f_0,f',f''\) alone do not improve the
+perfect-crystal comparison. The omitted 300 K Debye–Waller factor is the
+dominant constants-level effect (−6.85% in Darwin width). With all audited
+constants + Debye–Waller, the analytic two-beam width agrees with Stepanov X0h
+to 0.4–2.1%; the numerical fourth-order curve remains 3.6–5.5% broader.
+Therefore the archival constants remain the default pending the Tier-1 formula
+audit, while a future coherent 300 K constants mode should include
+species-specific Debye–Waller factors.

@@ -5,6 +5,7 @@
 | `published_fig3_scirep_2022.png` | **The benchmark target.** Figure 3 of Jo et al.; the inset is the GaAs (004) rocking curve we compare against. | Jo et al., Sci. Rep. **12**, 16606 (2022) | Reproduced under **CC BY 4.0**; attribution required. |
 | `matrix_rocking.png` | 2×2 rocking-curve matrix, Sci. Rep. Fig. 3 preset. PANELS = instrument (`empirical` σ≈22 arcsec vs `aps_7idc` 1.8 arcsec FWHM); COLORS = strain model (both appear in each panel). Left panel's vertical offset is a normalization artifact of the empirical convolution. | `strain-wave-simulation/scripts/validation_matrix.py` (mirrored here) | Current (2026-07-18 run). |
 | `xrd_acceptance.png` | Three-panel internal physics acceptance: (1) unstrained perfect-crystal Darwin curve at the Bragg angle, (2) strained-layer peaks landing on the kinematic `−ε·tan(θ_B)` prediction lines, (3) instrument convolution broadening only. | `scripts/validate_xrd_physics.py` | Current (2026-07-18 run). See `../VALIDATION.md`. |
+| `constants_sensitivity.png` | Tier-3 external benchmark: one-at-a-time sensitivity of the GaAs (004), 10 keV perfect-crystal curve to \(a,f_0,f',f''\), CODATA constants, and 300 K Debye–Waller factors; shaded band is the independent Stepanov X0h σ Darwin-width range. | `scripts/benchmark_constants_sensitivity.py` | Current (2026-07-18 run). See `../CONSTANTS_SENSITIVITY.md`. |
 
 Guide to reading this figure and the instrument-model rationale:
 `../INSTRUMENTS.md`. The companion strain-model comparison lives in
