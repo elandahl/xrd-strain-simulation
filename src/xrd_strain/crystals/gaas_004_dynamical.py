@@ -331,6 +331,33 @@ def xrd_slab_gaas_with_constants(
     )
 
 
+def xrd_slab_gaas_lowmem_with_constants(
+    th_0,
+    strain,
+    dz,
+    eps,
+    *,
+    a_gaas=A_GAAS,
+    f_gaas=F_GAAS,
+    re=RE,
+    wavelength=LAMB_0,
+):
+    """Angle-by-angle parameterized evaluation with flat memory use."""
+    intensity = np.zeros(len(th_0))
+    for j in range(len(th_0)):
+        intensity[j] = xrd_slab_gaas_with_constants(
+            th_0[j : j + 1],
+            strain,
+            dz,
+            eps,
+            a_gaas=a_gaas,
+            f_gaas=f_gaas,
+            re=re,
+            wavelength=wavelength,
+        )[0]
+    return intensity
+
+
 @njit
 def xrd_slab_gaas_lowmem(th_0, strain, dz, eps):
     """Angle-by-angle wrapper around ``xrd_slab_gaas``.

@@ -12,4 +12,4 @@ class XrdResult:
     crystal: str
     substrate_material: str
     strain_model: str
-    instrument: str = "empirical"
+    instrument: str = "aps_7idc"

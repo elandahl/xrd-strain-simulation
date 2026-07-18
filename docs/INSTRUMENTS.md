@@ -6,8 +6,8 @@ or `XrdConfig(instrument=...)`.
 
 | instrument | kernel | meaning |
 |---|---|---|
-| `empirical` (default) | multi-Gaussian, dominant σ ≈ 22 arcsec | **Effective** resolution (instrument + sample + fit) inherited from the original notebook / thermo-elastic-gaas (tag `paper-v1.0`). Heavy smoothing. Best matches the *smoothness of the published Fig. 3 fit curve*, so it is the paper-reproduction default. |
-| `aps_7idc` | single Gaussian, `--instrument-fwhm-arcsec` (default 1.8) | The **physical** instrument resolution the paper *states* for APS 7ID-C: 0.5 mdeg ≈ 1.8 arcsec. A light blur only. |
+| `aps_7idc` (default) | single Gaussian, `--instrument-fwhm-arcsec` (default 1.8) | The **physical** instrument resolution measured/stated for APS 7ID-C: 0.5 mdeg ≈ 1.8 arcsec. Analysis default. |
+| `empirical` | multi-Gaussian, dominant σ ≈ 22 arcsec | **Effective** resolution (instrument + sample + fit) inherited from the original notebook / thermo-elastic-gaas (tag `paper-v1.0`). Heavy smoothing. Legacy paper-figure reproduction option. |
 | `none` | — | Raw dynamical-diffraction curve, no convolution. |
 
 > Deprecated alias: `--instrument notebook` still works and maps to
@@ -54,9 +54,9 @@ Comparing against the published Fig. 3 rocking curve:
 **Conclusion:** the smooth curve plotted in the paper is broader than the
 paper's own stated 1.8 arcsec instrument resolution. The extra width comes
 from sample/experimental/fit effects (listed above), which `empirical`
-captures phenomenologically. So `empirical` is the right default for
-reproducing the paper's *figure*, while `aps_7idc` is the right choice when you
-want the response of the *stated instrument alone*.
+captures phenomenologically. So `empirical` is the right **explicit option**
+for reproducing the paper's *figure*, while the physical `aps_7idc` response is
+the default for new data analysis.
 
 ## Reading the validation-matrix rocking-curve figure
 

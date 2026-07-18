@@ -34,6 +34,20 @@ def test_xrd_runs_on_dummy_profile():
     result = run_xrd(_dummy_profile(), config=XrdConfig(n_points=10))
     assert len(result.angle_deg) == 10
     assert len(result.intensity) == 10
+    assert result.crystal == "gaas_004_10kev"
+    assert result.instrument == "aps_7idc"
+
+
+def test_legacy_crystal_remains_selectable():
+    result = run_xrd(
+        _dummy_profile(),
+        config=XrdConfig(
+            crystal="gaas_004_10kev_legacy",
+            instrument="none",
+            n_points=10,
+        ),
+    )
+    assert result.crystal == "gaas_004_10kev_legacy"
 
 
 def test_lowmem_matches_direct_call():

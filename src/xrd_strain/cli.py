@@ -31,7 +31,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--instrument",
-        default="empirical",
+        default="aps_7idc",
         choices=list(INSTRUMENTS) + ["notebook"],
         help="Angular resolution model; 'notebook' is a deprecated alias for "
         "'empirical' (see docs/INSTRUMENTS.md)",

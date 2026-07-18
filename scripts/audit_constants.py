@@ -23,6 +23,9 @@ from xrd_strain.crystals.gaas_004_dynamical import (
     LAMB_0,
     RE,
 )
+from xrd_strain.crystals.gaas_004_10kev_300k import (
+    gaas_004_10kev_300k_constants,
+)
 
 REPO = Path(__file__).resolve().parents[1]
 REPORT = REPO / "docs" / "constants_audit.json"
@@ -84,6 +87,7 @@ def decode_code_atomic(f: complex) -> dict:
 
 
 def main() -> int:
+    production = gaas_004_10kev_300k_constants()
     s = 1.0 / (2.0 * (A_GAAS / 4.0))
     th_b_code = float(np.degrees(np.arcsin(LAMB_0 / (2.0 * (A_GAAS / 4.0)))))
     th_b_lit = float(
@@ -155,6 +159,18 @@ def main() -> int:
             "lit_abs": abs(F_lit),
             "abs_rel_diff": (abs(F_code) - abs(F_lit)) / abs(F_lit),
         },
+        "production_300K": {
+            "f_0_real": production.f_0.real,
+            "f_0_imag": production.f_0.imag,
+            "f_h_real": production.f_h.real,
+            "f_h_imag": production.f_h.imag,
+            "chi_0_real": production.chi_0.real,
+            "chi_0_imag": production.chi_0.imag,
+            "chi_h_real": production.chi_h.real,
+            "chi_h_imag": production.chi_h.imag,
+            "debye_waller_ga": production.debye_waller_ga,
+            "debye_waller_as": production.debye_waller_as,
+        },
         "sources": {
             "Henke_CXRO": "https://henke.lbl.gov/ (f1,f2 at 10000 eV; 2026-07-18)",
             "Waasmaier_Kirfel": "Acta Cryst. A51, 416 (1995); ESRF DABAX f0_WaasKirf.dat",
@@ -189,6 +205,11 @@ def main() -> int:
     print(
         f"  |F_004|: code {abs(F_code):.2f}  lit {abs(F_lit):.2f}  "
         f"({100 * report['structure_factor_004']['abs_rel_diff']:+.2f}%)"
+    )
+    print(
+        f"  production: F0={production.f_0.real:.2f}+"
+        f"{production.f_0.imag:.2f}i, "
+        f"Fh={production.f_h.real:.2f}+{production.f_h.imag:.2f}i"
     )
     for el, code, f0l, fpl, fppl in [
         ("Ga", ga_code, ga_f0_lit, ga_fp_lit, ga_fpp_lit),

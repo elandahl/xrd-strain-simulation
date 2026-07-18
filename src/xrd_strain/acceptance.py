@@ -37,24 +37,39 @@ from dataclasses import asdict, dataclass, field
 import numpy as np
 
 from xrd_strain.config import DetectorConfig
+from xrd_strain.crystals.gaas_004_10kev_300k import (
+    gaas_004_10kev_300k_constants,
+)
 from xrd_strain.crystals.gaas_004_dynamical import (
-    A_GAAS,
-    LAMB_0,
-    xrd_slab_gaas_lowmem,
+    xrd_slab_gaas_lowmem_with_constants,
 )
 from xrd_strain.detector.gaussian import apply_gaussian_instrument
 from xrd_strain.detector.resolution import apply_detector_resolution
 
-# GaAs (004): out-of-plane d-spacing is a/4.
-D_004 = A_GAAS / 4.0
 # Default layer thickness for the checks (paper grid ~2.67 nm = 26.7 A).
 DEFAULT_DZ_ANGSTROM = 26.7
 DEFAULT_EPS = 1e-6
 
 
+def _production_intensity(th_deg, strain, dz_angstrom, eps):
+    constants = gaas_004_10kev_300k_constants()
+    return xrd_slab_gaas_lowmem_with_constants(
+        th_deg,
+        strain,
+        dz_angstrom,
+        eps,
+        a_gaas=constants.lattice_angstrom,
+        f_gaas=constants.solver_factors,
+        re=constants.classical_electron_radius_angstrom,
+        wavelength=constants.wavelength_angstrom,
+    )
+
+
 def kinematic_bragg_deg() -> float:
     """Kinematic Bragg angle (deg) for GaAs (004) at the calculator's energy."""
-    return float(np.degrees(np.arcsin(LAMB_0 / (2.0 * D_004))))
+    c = gaas_004_10kev_300k_constants()
+    d_004 = c.lattice_angstrom / 4.0
+    return float(np.degrees(np.arcsin(c.wavelength_angstrom / (2.0 * d_004))))
 
 
 def tan_bragg() -> float:
@@ -114,7 +129,7 @@ def perfect_crystal_curve(
     th_deg = np.linspace(th - half_window_deg, th + half_window_deg, n_angles)
     strain = np.zeros(n_layers)
     strain[0] = 2.0 * eps
-    intensity = xrd_slab_gaas_lowmem(th_deg, strain, dz_angstrom, eps)
+    intensity = _production_intensity(th_deg, strain, dz_angstrom, eps)
     return th_deg, intensity
 
 
@@ -134,7 +149,7 @@ def strained_layer_curve(
     )
     strain = np.zeros(n_layers)
     strain[0:n_cap_layers] = strain_eps
-    intensity = xrd_slab_gaas_lowmem(th_deg, strain, dz_angstrom, eps)
+    intensity = _production_intensity(th_deg, strain, dz_angstrom, eps)
     return th_deg, intensity
 
 

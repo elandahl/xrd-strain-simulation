@@ -56,6 +56,7 @@ X0H_SIGMA_FWHM_RANGE_ARCSEC = (5.4238, 5.5212)
 # X0h/GID_sl semi-infinite perfect-crystal curve using its recommended X0h
 # dispersion database (same 10 keV, 004, sigma query).
 X0H_SIGMA_PEAK_REFLECTIVITY = 0.97282552
+X0H_GID_CURVE_FWHM_ARCSEC = 5.736857
 
 
 @dataclass(frozen=True)
@@ -72,6 +73,7 @@ class ConstantsCase:
     fpp_as: float = FPP_CODE["As"]
     b_ga: float = 0.0
     b_as: float = 0.0
+    distinct_forward_factor: bool = False
 
     @property
     def structure_factors(self) -> np.ndarray:
@@ -81,7 +83,14 @@ class ConstantsCase:
         dw_ga = np.exp(-self.b_ga * s**2)
         dw_as = np.exp(-self.b_as * s**2)
         f_004 = 4.0 * (f_ga * dw_ga + f_as * dw_as)
-        return np.array([f_004, f_004], dtype=np.complex128)
+        if self.distinct_forward_factor:
+            f_forward = 4.0 * (
+                (31.0 + self.fp_ga + 1j * self.fpp_ga)
+                + (33.0 + self.fp_as + 1j * self.fpp_as)
+            )
+        else:
+            f_forward = f_004
+        return np.array([f_forward, f_004], dtype=np.complex128)
 
     @property
     def bragg_deg(self) -> float:
@@ -124,10 +133,25 @@ CASES = [
         b_ga=B_300K["Ga"],
         b_as=B_300K["As"],
     ),
+    ConstantsCase(
+        "production: distinct F0/Fh",
+        a=A_LIT,
+        re=RE_LIT,
+        wavelength=LAMBDA_LIT,
+        f0_ga=F0_LIT["Ga"],
+        f0_as=F0_LIT["As"],
+        fp_ga=FP_LIT["Ga"],
+        fp_as=FP_LIT["As"],
+        fpp_ga=FPP_LIT["Ga"],
+        fpp_as=FPP_LIT["As"],
+        b_ga=B_300K["Ga"],
+        b_as=B_300K["As"],
+        distinct_forward_factor=True,
+    ),
 ]
 
 
-def perfect_curve(case: ConstantsCase, n_angles: int = 700):
+def perfect_curve(case: ConstantsCase, n_angles: int = 1000):
     th = np.linspace(case.bragg_deg - 0.03, case.bragg_deg + 0.03, n_angles)
     strain = np.zeros(1500)
     strain[0] = 2e-6
@@ -263,6 +287,9 @@ def main() -> int:
         row["delta_peak_percent_vs_x0h"] = 100.0 * (
             row["peak_reflectivity"] / X0H_SIGMA_PEAK_REFLECTIVITY - 1.0
         )
+        row["delta_fwhm_percent_vs_x0h_gid_curve"] = 100.0 * (
+            row["fwhm_arcsec"] / X0H_GID_CURVE_FWHM_ARCSEC - 1.0
+        )
 
     report = {
         "case": "GaAs (004), 10 keV, sigma polarization",
@@ -274,6 +301,7 @@ def main() -> int:
                 X0H_SIGMA_FWHM_RANGE_ARCSEC
             ),
             "sigma_peak_reflectivity_x0h_database": X0H_SIGMA_PEAK_REFLECTIVITY,
+            "sigma_gid_curve_fwhm_arcsec": X0H_GID_CURVE_FWHM_ARCSEC,
             "database_options": "X0h, Henke, Brennan-Cowan, Windt, Chantler",
         },
         "cases": rows,
@@ -302,6 +330,10 @@ def main() -> int:
     print(
         f"External X0h/GID_sl σ peak reflectivity: "
         f"{X0H_SIGMA_PEAK_REFLECTIVITY:.5f}"
+    )
+    print(
+        f"External X0h/GID_sl absorbing-curve FWHM: "
+        f"{X0H_GID_CURVE_FWHM_ARCSEC:.5f} arcsec"
     )
     print(f"Report saved to {REPORT}")
     print(f"Figure saved to {FIGURE}")

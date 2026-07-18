@@ -14,7 +14,12 @@ from xrd_strain.acceptance import (
     check_instrument_convolution,
     check_perfect_crystal,
     check_strained_layer_shift,
+    fwhm_arcsec,
     kinematic_bragg_deg,
+)
+from xrd_strain.crystals.base import get_crystal
+from xrd_strain.crystals.gaas_004_10kev_300k import (
+    gaas_004_10kev_300k_constants,
 )
 from xrd_strain.crystals.gaas_004_dynamical import (
     xrd_slab_gaas,
@@ -72,3 +77,35 @@ def test_frozen_notebook_regression():
 def test_kinematic_bragg_angle_is_sane():
     # GaAs (004) at 10 keV sits near 26.03 deg.
     assert 25.9 < kinematic_bragg_deg() < 26.2
+
+
+def test_modern_constants_match_x0h_susceptibilities():
+    """Externally audited F0 and Fh reproduce Stepanov X0h."""
+    c = gaas_004_10kev_300k_constants()
+
+    # X0h, GaAs 004, 10 keV, sigma, X0h/International Tables database.
+    x0h_chi0 = -1.8040e-5 + 1j * 3.6087e-7
+    x0h_chih = -1.0360e-5 + 1j * 3.3717e-7
+
+    np.testing.assert_allclose(c.chi_0.real, x0h_chi0.real, rtol=0.01)
+    np.testing.assert_allclose(c.chi_0.imag, x0h_chi0.imag, rtol=0.06)
+    np.testing.assert_allclose(c.chi_h.real, x0h_chih.real, rtol=0.01)
+    np.testing.assert_allclose(c.chi_h.imag, x0h_chih.imag, rtol=0.06)
+
+
+def test_modern_perfect_crystal_matches_x0h_gid_curve():
+    """Production calculator matches the independent absorbing X0h/GID curve."""
+    c = gaas_004_10kev_300k_constants()
+    theta_b = np.degrees(
+        np.arcsin(c.wavelength_angstrom / (2.0 * (c.lattice_angstrom / 4.0)))
+    )
+    th = np.linspace(theta_b - 0.03, theta_b + 0.03, 1000)
+    strain = np.zeros(1500)
+    strain[0] = 2e-6
+
+    calculator = get_crystal("gaas_004_10kev")
+    intensity = calculator.compute_intensity(th, strain, 26.7, 1e-6)
+
+    # Directly measured from the X0h/GID_sl curve queried 2026-07-18.
+    assert abs(fwhm_arcsec(th, intensity) - 5.736857) < 0.03
+    assert abs(float(intensity.max()) - 0.97282552) < 0.003

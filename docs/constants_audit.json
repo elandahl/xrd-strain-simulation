@@ -60,6 +60,18 @@
     "lit_abs": 144.91334272880368,
     "abs_rel_diff": -0.015702859626141187
   },
+  "production_300K": {
+    "f_0_real": 237.6856,
+    "f_0_imag": 4.986,
+    "f_h_real": 135.2442453041177,
+    "f_h_imag": 4.65868216703163,
+    "chi_0_real": -1.8139398943391397e-05,
+    "chi_0_imag": 3.805154503754098e-07,
+    "chi_h_real": -1.0321404916281338e-05,
+    "chi_h_imag": 3.555356082920038e-07,
+    "debye_waller_ga": 0.9251039483607462,
+    "debye_waller_as": 0.9413389436096372
+  },
   "sources": {
     "Henke_CXRO": "https://henke.lbl.gov/ (f1,f2 at 10000 eV; 2026-07-18)",
     "Waasmaier_Kirfel": "Acta Cryst. A51, 416 (1995); ESRF DABAX f0_WaasKirf.dat",

@@ -24,7 +24,7 @@ python scripts/audit_constants.py
 | Photon energy | `E_0 = 10.0` keV | **10 keV** X-rays, APS 7ID-C, diamond (111) DCM | **Match** |
 | Reflection | GaAs (004), symmetric Bragg | GaAs (0 0 4) | **Match** |
 | Probe temperature (ambient) | implied room temp; strain solver `T0 = 300` K | Ambient / room-temperature experiment | **Consistent** |
-| Stated angular resolution | `aps_7idc` default FWHM **1.8 arcsec** (= 0.5 mdeg) | **0.5 millidegrees** | **Match** (physical instrument). The default `empirical` kernel is a separate, broader *effective* resolution — see [INSTRUMENTS.md](INSTRUMENTS.md). |
+| Stated angular resolution | `aps_7idc` default FWHM **1.8 arcsec** (= 0.5 mdeg) | **0.5 millidegrees** | **Match** (physical and software default). The optional `empirical` kernel is a separate, broader *effective* resolution — see [INSTRUMENTS.md](INSTRUMENTS.md). |
 
 ## Fundamental / conversion constants
 
@@ -50,12 +50,12 @@ Kinematic Bragg angle with the code lattice constant:
 \theta_B = \arcsin\!\bigl(\lambda / (2\,d_{004})\bigr),\quad d_{004}=a/4
 \]
 
-→ \(\theta_B = 26.0325^\circ\) (matches the internal acceptance suite). With
-\(a=5.65325\) Å it would be \(26.0164^\circ\).
+→ archival \(\theta_B = 26.0325^\circ\). The production \(a=5.65325\) Å gives
+\(26.0165^\circ\), used by the current internal and external acceptance suites.
 
-## Atomic scattering factors at 10 keV, (004)
+## Archival atomic scattering factors at 10 keV, (004)
 
-The code stores atomic factors as
+The legacy notebook backend stores atomic factors as
 
 ```text
 F_AS = 20.6498 - 1.4384 + 1j * 0.833881
@@ -129,18 +129,31 @@ Combined structure factor magnitude \(|F_{004}|\):
 
 **Not bugs in the sense of wrong energy or wrong reflection** — the
 calculator is clearly built for GaAs (004) at 10 keV, matching the paper.
-The open question is how much the table-vintage differences move the rocking
-curve relative to experimental noise and instrument blur.
+Their effects and the more important \(F_0/F_h\) correction are quantified in
+[`CONSTANTS_SENSITIVITY.md`](CONSTANTS_SENSITIVITY.md).
+
+## Production constants
+
+The production `gaas_004_10kev` backend now uses the audited values coherently:
+
+- \(F_0=237.69+4.99i\), using \(f_0(Q=0)=Z\) and no thermal attenuation;
+- \(F_h=135.24+4.66i\), using Waasmaier–Kirfel \(f_0(Q_h)\), Henke
+  \(f',f''\), and species-specific 300 K Debye–Waller factors;
+- \(a=5.65325\) Å, \(r_e=2.8179403205\times10^{-5}\) Å, and
+  \(\lambda=1.239841984\) Å.
+
+The old values and \(F_0=F_h\) approximation are isolated in
+`gaas_004_10kev_legacy`.
 
 ## Tier-3 result
 
 Completed: see [`CONSTANTS_SENSITIVITY.md`](CONSTANTS_SENSITIVITY.md).
 
-The main result is that modern \(a,f_0,f',f''\) alone do not improve the
-perfect-crystal comparison. The omitted 300 K Debye–Waller factor is the
-dominant constants-level effect (−6.85% in Darwin width). With all audited
-constants + Debye–Waller, the analytic two-beam width agrees with Stepanov X0h
-to 0.4–2.1%; the numerical fourth-order curve remains 3.6–5.5% broader.
-Therefore the archival constants remain the default pending the Tier-1 formula
-audit, while a future coherent 300 K constants mode should include
-species-specific Debye–Waller factors.
+Modern \(a,f_0,f',f''\) alone do not improve the perfect-crystal comparison.
+The omitted 300 K Debye–Waller factor is the dominant constants-level effect.
+The decisive formula issue was the archival approximation \(F_0=F_h\):
+forward refraction/absorption requires \(f_0(Q=0)=Z\), whereas diffraction
+requires \(f_0(Q_h)\) and thermal attenuation. The corrected production model
+with distinct \(F_0,F_h\) matches the Stepanov X0h/GID_sl absorbing curve to
+0.1% in both FWHM and peak reflectivity. The archival constants now remain
+available only through `gaas_004_10kev_legacy`.

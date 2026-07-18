@@ -4,17 +4,28 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
 
 ## Current calculator
 
-- **`gaas_004_10kev`** — GaAs (004) reflection, 10 keV, dynamical diffraction (low-memory angle-by-angle evaluation, supports fine angular grids)
+- **`gaas_004_10kev` (default)** — externally benchmarked GaAs (004),
+  10 keV, 300 K, σ-polarized dynamical diffraction. Uses modern lattice and
+  scattering factors, species-specific Debye–Waller factors, and distinct
+  forward/diffracting structure factors \(F_0,F_h\). Matches Stepanov
+  X0h/GID_sl perfect-crystal FWHM and peak reflectivity to ~0.1%.
+- **`gaas_004_10kev_legacy`** — notebook-faithful constants and \(F_0=F_h\)
+  approximation, retained only for exact archival reproduction.
 
 ## Instrument models
 
 Switch with `--instrument` (see `docs/INSTRUMENTS.md` for details and the figure guide):
 
-- `empirical` (default) — multi-Gaussian **effective** resolution (instrument + sample + fit) from the original notebook; dominant σ ≈ 22 arcsec. Heavy smoothing; best matches the smoothness of the published Fig. 3 fit curve. (Deprecated alias: `notebook`.)
-- `aps_7idc` — single Gaussian at the paper's **stated** APS 7ID-C resolution (default 1.8 arcsec FWHM, configurable). Light blur only.
+- `aps_7idc` (default) — single Gaussian at the measured APS 7ID-C resolution
+  (default 1.8 arcsec FWHM, configurable). Physical analysis default.
+- `empirical` — multi-Gaussian **effective** resolution (instrument + sample +
+  fit) from the original notebook; dominant σ ≈ 22 arcsec. Legacy
+  paper-figure smoothing option. (Deprecated alias: `notebook`.)
 - `none` — raw dynamical-diffraction curve
 
-Note: the `empirical` model reproduces the paper's *plotted* curve better than the paper's own stated 1.8 arcsec resolution does — the published curve is broader than pure instrument response (sample mosaic, depth averaging, beam divergence, fit smoothing). See `docs/INSTRUMENTS.md`.
+The `empirical` model reproduces the paper's *plotted* curve better, but it
+conflates instrument and sample/fit broadening and is therefore not the
+default for new data analysis. See `docs/INSTRUMENTS.md`.
 
 ## Quick start
 
@@ -69,6 +80,8 @@ python scripts/audit_constants.py
 See [`docs/CONSTANTS_PROVENANCE.md`](docs/CONSTANTS_PROVENANCE.md).
 Tier-3 one-at-a-time sensitivity and Stepanov X0h comparison:
 [`docs/CONSTANTS_SENSITIVITY.md`](docs/CONSTANTS_SENSITIVITY.md).
+Formula mapping and the corrected \(F_0/F_h\) distinction:
+[`docs/FORMULA_AUDIT.md`](docs/FORMULA_AUDIT.md).
 
 ## Paper reproduction
 

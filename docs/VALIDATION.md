@@ -20,12 +20,13 @@ catch real regressions.
 
 An essentially unstrained thick GaAs slab must give the textbook Darwin curve:
 
-- **Peak position** at the kinematic Bragg angle
-  `θ_B = asin(λ / 2d_004)` with `d_004 = a/4`. Measured 26.0326° vs 26.0325°
-  (+0.18 arcsec dynamical refraction shift). Tolerance: |shift| < 3 arcsec.
-- **Peak reflectivity** O(1) for a thick perfect crystal (measured 0.985).
-- **Darwin width** a few arcsec (measured ≈ 5.9 arcsec FWHM, consistent with
-  GaAs 004 at ~10 keV). Tolerance: 2–15 arcsec.
+- **Peak position** at the refractively shifted Bragg angle:
+  kinematic `θ_B = 26.0165°`, numerical peak ≈ 26.0171° (+2.3 arcsec).
+- **Peak reflectivity** 0.973 for a thick perfect crystal.
+- **Absorbing-curve FWHM** ≈ 5.73 arcsec.
+
+The last two are now strict external acceptances against Stepanov X0h/GID_sl:
+0.97283 and 5.73686 arcsec, respectively (agreement ~0.1% at fine sampling).
 
 ## 2. Known strain → Bragg shift
 
@@ -33,8 +34,8 @@ A uniformly strained surface layer on the substrate produces a second peak
 displaced by the kinematic law `Δθ = -ε·tan(θ_B)` (tensile out-of-plane strain
 → larger d → lower angle):
 
-- ε = 2×10⁻³ gives a layer peak at −196.6 arcsec vs predicted −201.5 arcsec
-  (2.4% off, correct sign). Tolerance: 10%.
+- ε = 2×10⁻³ gives a layer peak at −196.9 arcsec vs predicted −201.4 arcsec
+  (2.2% off, correct sign). Tolerance: 10%.
 - the shift **scales linearly with ε**: shift(2e-3)/shift(1e-3) = 2.10
   (expect 2).
 
@@ -44,8 +45,8 @@ This is the core diffraction-physics check: peak separation ↔ strain magnitude
 
 Convolution must only *broaden*, never move the peak or invent structure:
 
-- **Broadening** increases FWHM: none 6.0 → aps_7idc(12″) 13.6 → empirical
-  18.2 arcsec.
+- **Broadening** increases FWHM: none 5.73 → aps_7idc(12″) 13.45 → empirical
+  18.09 arcsec.
 - **No new structure**: the number of local maxima does not increase under
   either kernel.
 - **Intensity conservation**: the symmetric normalized `aps_7idc` Gaussian
@@ -53,7 +54,7 @@ Convolution must only *broaden*, never move the peak or invent structure:
   multi-Gaussian kernel does **not** conserve area (a known normalization
   artifact of the inherited convolution — it rescales the curve; see
   `docs/INSTRUMENTS.md`), so area conservation is only asserted for `aps_7idc`.
-- **Peak stability**: `aps_7idc` moves the peak centroid by −0.03 arcsec
+- **Peak stability**: `aps_7idc` moves the peak centroid by −0.12 arcsec
   (symmetric kernel). The `empirical` kernel has deliberate offset centers and
   may shift slightly.
 
@@ -62,7 +63,7 @@ Convolution must only *broaden*, never move the peak or invent structure:
 ## 4. Frozen-notebook regression
 
 `tests/test_xrd_acceptance.py::test_frozen_notebook_regression` requires the
-current `xrd_slab_gaas` (and the low-memory path) to reproduce a golden rocking
+legacy `xrd_slab_gaas` (and the low-memory path) to reproduce a golden rocking
 curve **bit-for-bit** (atol 1e-12; observed max abs diff 0.0). The golden data
 `tests/data/gaas004_golden.npz` was generated from the archival
 thermo-elastic-gaas calculator (tag `paper-v1.0`) on a fixed strain profile,
@@ -78,9 +79,11 @@ needing the other repo at test time.
 - The checked-in `docs/physics_acceptance.json` is the run-of-record; diff it
   after re-running.
 
-## External next steps
+## External benchmark status
 
-Internal checks do not prove the hard-coded scattering factors and lattice
-constant match modern tables. That is Tier 2 of the external plan —
-see [`EXTERNAL_BENCHMARKS.md`](EXTERNAL_BENCHMARKS.md) and
-[`CONSTANTS_PROVENANCE.md`](CONSTANTS_PROVENANCE.md).
+The production `gaas_004_10kev` calculator now uses audited 300 K constants
+and distinct forward/diffracting factors \(F_0,F_h\). Tests require its
+\(\chi_0,\chi_h\), FWHM, and peak reflectivity to match Stepanov X0h/GID_sl.
+The notebook implementation remains selectable as
+`gaas_004_10kev_legacy`. See
+[`CONSTANTS_SENSITIVITY.md`](CONSTANTS_SENSITIVITY.md).

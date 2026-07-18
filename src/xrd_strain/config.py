@@ -16,8 +16,8 @@ class XrdConfig:
     - ``"empirical"`` — multi-Gaussian *effective* resolution (instrument +
       sample + fit) inherited from the original notebook / thermo-elastic-gaas.
       Dominant component σ ≈ 22 arcsec, so it smooths heavily. This is the
-      paper-reproduction default because it best matches the smoothness of the
-      published Fig. 3 fit curve. (Deprecated alias: ``"notebook"``.)
+      legacy paper-reproduction option because it best matches the smoothness
+      of the published Fig. 3 fit curve. (Deprecated alias: ``"notebook"``.)
     - ``"aps_7idc"``  — single Gaussian with ``instrument_fwhm_arcsec`` FWHM.
       This is the *physical* instrument resolution the paper quotes for APS
       7ID-C (0.5 mdeg ≈ 1.8 arcsec), i.e. a light blur only.
@@ -30,7 +30,7 @@ class XrdConfig:
     n_points: int = 100
     strain_eps: float = 1e-6
     log10_intensity: bool = True
-    instrument: str = "empirical"
+    instrument: str = "aps_7idc"
     instrument_fwhm_arcsec: float = 1.8
 
 
