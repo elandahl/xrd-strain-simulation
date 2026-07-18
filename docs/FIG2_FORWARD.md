@@ -42,6 +42,38 @@ fitted \(G,k_e\). The ~7″ fringe-location offset and absolute sideband height
 are open for tuning (Si sound speed, instrument kernel, exact delay) in a
 later refinement pass — this is a working forward model, not a finished fit.
 
+## Temporal resolution: why the fine fringes are not in the data
+
+The single-delay curve above carries dense ~5″ fringes on the sideband
+region. These are coherent depth (Pendellösung-like) fringes: their spacing
+\(\lambda\,/(2\,d\cos\theta_B)\) matches the instantaneous strained depth
+\(d = v_{\mathrm{Si}}\,\Delta t \approx 2.87\) µm exactly. They are real
+physics of a *snapshot*, but the measurement was not a snapshot: the x-ray
+bunch duration in that APS fill mode was **~90 ps FWHM**, during which the
+acoustic wavefront advances \(v_{\mathrm{Si}}\cdot 90\,\mathrm{ps}\approx
+760\) nm. The recorded curve is therefore an incoherent average over delays,
+and the depth fringes — whose phase depends on the wavefront depth —
+scramble and cancel. The Brillouin sidebands survive, because their angular
+position is set by the acoustic pulse-train period (~200 nm), which does not
+change with delay.
+
+`scripts/fig2_delay_average.py` implements this: it runs the strain preset at
+9 Gaussian-weighted delays spanning ±2σ about 0.34 ns (σ = 38 ps), averages
+the rocking curves, and applies the 1.8″ instrument.
+
+![Delay-averaged forward model](images/fig2_delay_average.png)
+
+| Check | Single delay | 90 ps bunch average |
+|-------|-------------|---------------------|
+| Positive-side maxima above 10⁻⁴ | 20 fringes at ~5″ spacing | 1 dominant sideband at ≈67″ (+ weak residue) |
+| First sideband amplitude (norm.) | ~3×10⁻³ | ~2.6×10⁻³ (stable — delay-independent) |
+
+The averaged curve now has the same qualitative structure as the published
+panel (a): a smooth central peak with one broad Brillouin sideband per side.
+The remaining ~6″ offset of the sideband position (67″ vs 61″) is a genuine
+model/parameter question (pulse-train period via \(v_{\mathrm{Cr}}\), film
+thickness), no longer confounded by coherent fringe structure.
+
 ## How to reproduce
 
 ```bash
@@ -56,6 +88,9 @@ cd ../xrd-strain-simulation
 python scripts/run.py \
   --strain-file ../strain-wave-simulation/results/paper_fig2_si/strain_profile.npz \
   --crystal si_004_10kev --instrument aps_7idc --no-show
+
+# delay-averaged curve (90 ps FWHM bunch; runs both repos, ~1.5 min)
+python scripts/fig2_delay_average.py
 ```
 
 Machine-readable metrics: `docs/fig2_forward_summary.json`.

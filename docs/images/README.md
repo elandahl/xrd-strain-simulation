@@ -11,6 +11,7 @@
 | `fig3_gid_sl_benchmark.png` | Realistic Tier-4 comparison using the paper Figure 3 d'Alembert strain at 1.8 ns. Shows the full curve, Darwin-peak zoom, residuals for production and GID-matched susceptibilities, and the source strain. | `scripts/benchmark_fig3_gid_sl.py` | Current (2026-07-18 run). See `../FIG3_GID_SL_BENCHMARK.md`. |
 | `fig2_forward.png` | First Fig. 2 forward model: Si rocking curve + near/far strain. | paper_fig2_si + si_004_10kev | Current (2026-07-18). See `../FIG2_FORWARD.md`. |
 | `fig2_published_vs_forward.png` | Side-by-side published Fig. 2 vs forward rocking curve. | — | Current (2026-07-18). |
+| `fig2_delay_average.png` | Fig. 2 forward model averaged over the 90 ps FWHM APS x-ray bunch (9 Gaussian-weighted delays about 0.34 ns) vs the single-delay snapshot; the ~5″ coherent depth fringes cancel, the Brillouin sideband survives. Published Fig. 2 alongside. | `scripts/fig2_delay_average.py` | Current (2026-07-18 run). See `../FIG2_FORWARD.md`. |
 
 Guide to reading this figure and the instrument-model rationale:
 `../INSTRUMENTS.md`. The companion strain-model comparison lives in

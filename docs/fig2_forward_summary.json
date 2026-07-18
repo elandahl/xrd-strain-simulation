@@ -23,5 +23,22 @@
   "substrate": "Si",
   "notes": "First forward-model overlay; fringe locations vs paper 61 arcsec are the primary visual check.",
   "pulse_train_period_nm": 200.0,
-  "expected_period_nm": 204.1
+  "expected_period_nm": 204.1,
+  "temporal_resolution_model": {
+    "bunch_fwhm_ps": 90.0,
+    "n_delay_samples": 9,
+    "delay_range_ps": [
+      263.5610379740783,
+      416.43896202592174
+    ],
+    "surviving_positive_maxima_arcsec": [
+      67.5,
+      83.5,
+      88.5,
+      93.5,
+      98.5,
+      104.0
+    ],
+    "note": "Gaussian average over the APS 24-bunch x-ray duration removes the 5-arcsec coherent depth fringes; Brillouin sidebands survive because their angle is set by the pulse-train period."
+  }
 }
