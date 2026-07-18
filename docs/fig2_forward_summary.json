@@ -1,0 +1,27 @@
+{
+  "preset": "paper_fig2_si",
+  "crystal": "si_004_10kev",
+  "theta_b_deg": 27.16715793524764,
+  "instrument": "aps_7idc",
+  "peak_reflectivity_raw": 0.9719809921598648,
+  "positive_fringe_peaks_arcsec": [
+    [
+      62.5,
+      0.0028
+    ],
+    [
+      68.0,
+      0.0031
+    ],
+    [
+      73.0,
+      0.0024
+    ]
+  ],
+  "paper_si_fringe_arcsec": 61,
+  "strain_model": "ttm_dalembert_cr_si",
+  "substrate": "Si",
+  "notes": "First forward-model overlay; fringe locations vs paper 61 arcsec are the primary visual check.",
+  "pulse_train_period_nm": 200.0,
+  "expected_period_nm": 204.1
+}

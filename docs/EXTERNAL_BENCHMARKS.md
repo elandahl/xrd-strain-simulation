@@ -19,8 +19,15 @@ layer before fitting APS/PLS data.
 3. Score existing XRD acceptance checks against literature (Tier 3) — done
 4. One online-solver comparison on a uniform strained layer (Tier 4 smoke test) — done, plus a two-step profile; see [GID_SL_BENCHMARK.md](GID_SL_BENCHMARK.md)
 5. Paper Fig. 3 d'Alembert strain → production XRD vs GID_sl — done; see [FIG3_GID_SL_BENCHMARK.md](FIG3_GID_SL_BENCHMARK.md)
-6. Second independent implementation with controlled constants (e.g. `xrayutilities`) ← **next cross-code check**
-7. APS / PLS experimental data
+6. **Fig. 3 (Cr/GaAs) closure — done.** Strain morphology, XRD strain-model
+   sensitivity, and the instrument-vs-1.8″ finding are summarized in
+   [FIG3_CLOSURE.md](FIG3_CLOSURE.md). No new long run needed.
+7. **Si (004) calculator + Fig. 2 (Cr/Si) — done (first pass).** See
+   [CONSTANTS_PROVENANCE_SI.md](CONSTANTS_PROVENANCE_SI.md) and
+   [FIG2_FORWARD.md](FIG2_FORWARD.md). Brillouin sidebands present; fringe
+   location ~68″ vs paper ~61″ left for later tuning.
+8. Second independent implementation with controlled constants (e.g. `xrayutilities`) ← **next external check when resumed**
+9. APS / PLS experimental data
 
 ## Supporting practices
 

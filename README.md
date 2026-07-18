@@ -9,6 +9,10 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
   scattering factors, species-specific Debye–Waller factors, and distinct
   forward/diffracting structure factors \(F_0,F_h\). Matches Stepanov
   X0h/GID_sl perfect-crystal FWHM and peak reflectivity to ~0.1%.
+- **`si_004_10kev`** — Si (004), 10 keV, 300 K production calculator for
+  Sci. Rep. Fig. 2 (Cr/Si). GID_sl-checked; not the package default. See
+  [`docs/CONSTANTS_PROVENANCE_SI.md`](docs/CONSTANTS_PROVENANCE_SI.md) and
+  [`docs/FIG2_FORWARD.md`](docs/FIG2_FORWARD.md).
 - **`gaas_004_10kev_legacy`** — notebook-faithful constants and \(F_0=F_h\)
   approximation, retained only for exact archival reproduction.
 
