@@ -77,3 +77,10 @@ needing the other repo at test time.
   baseline a new calculator should reproduce in structure.
 - The checked-in `docs/physics_acceptance.json` is the run-of-record; diff it
   after re-running.
+
+## External next steps
+
+Internal checks do not prove the hard-coded scattering factors and lattice
+constant match modern tables. That is Tier 2 of the external plan —
+see [`EXTERNAL_BENCHMARKS.md`](EXTERNAL_BENCHMARKS.md) and
+[`CONSTANTS_PROVENANCE.md`](CONSTANTS_PROVENANCE.md).

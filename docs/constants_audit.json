@@ -1,0 +1,70 @@
+{
+  "context": {
+    "energy_keV": 10.0,
+    "reflection": "GaAs (004)",
+    "sin_theta_over_lambda_Ainv": 0.35398230088495575,
+    "theta_B_code_deg": 26.032532835192004,
+    "theta_B_lit_a_deg": 26.016490202926608,
+    "bragg_offset_from_modern_a_arcsec": 57.75347615542614
+  },
+  "fundamentals": {
+    "re_code_A": 2.818e-05,
+    "re_codata_A": 2.8179403205e-05,
+    "re_rel_diff": 2.117841161007135e-05,
+    "lambda_code_A": 1.23984,
+    "lambda_codata_A": 1.2398419840000001
+  },
+  "lattice": {
+    "a_code_A": 5.65,
+    "a_lit_300K_A": 5.65325,
+    "a_rel_diff": -0.0005748905496837272
+  },
+  "atomic_factors": {
+    "Ga": {
+      "code": {
+        "f0": 19.3993,
+        "fp": -2.983,
+        "fpp": 0.670502,
+        "f_real": 16.4163,
+        "f_imag": 0.670502
+      },
+      "lit_f0_WaasmaierKirfel": 19.716145145079985,
+      "lit_fp_Henke": -2.9739000000000004,
+      "lit_fpp_Henke": 0.5364,
+      "f0_rel_diff": -0.016070339447620197,
+      "fp_rel_diff": -0.0030599549413227287,
+      "fpp_rel_diff": 0.25000372856077563
+    },
+    "As": {
+      "code": {
+        "f0": 20.6498,
+        "fp": -1.4384,
+        "fpp": 0.833881,
+        "f_real": 19.211399999999998,
+        "f_imag": 0.833881
+      },
+      "lit_f0_WaasmaierKirfel": 21.069340167692122,
+      "lit_fp_Henke": -1.6047000000000011,
+      "lit_fpp_Henke": 0.7101,
+      "f0_rel_diff": -0.0199123543667233,
+      "fp_rel_diff": 0.10363307783386372,
+      "fpp_rel_diff": 0.1743148852274328
+    }
+  },
+  "structure_factor_004": {
+    "code_real": 142.5108,
+    "code_imag": 6.017532,
+    "code_abs": 142.6377888499784,
+    "lit_real": 144.8275412510884,
+    "lit_imag": 4.986,
+    "lit_abs": 144.91334272880368,
+    "abs_rel_diff": -0.015702859626141187
+  },
+  "sources": {
+    "Henke_CXRO": "https://henke.lbl.gov/ (f1,f2 at 10000 eV; 2026-07-18)",
+    "Waasmaier_Kirfel": "Acta Cryst. A51, 416 (1995); ESRF DABAX f0_WaasKirf.dat",
+    "CODATA_re": "CODATA 2022 classical electron radius",
+    "paper": "Jo et al., Sci. Rep. 12, 16606 (2022), Methods: 10 keV, APS 7ID-C, GaAs (004)",
+    "a_GaAs": "Vurgaftman et al., J. Appl. Phys. 89, 5815 (2001)"
+  }
+}

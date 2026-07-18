@@ -47,18 +47,26 @@ Reads `.npz` strain profiles from [strain-wave-simulation](https://github.com/el
 
 ## Validation
 
-Internal, physics-based acceptance checks (perfect-crystal Darwin curve,
-strained-layer Bragg shift `Δθ = -ε·tan(θ_B)`, instrument-convolution sanity,
-and a bit-for-bit regression against the archival calculator) run before any
-external benchmarking:
+**Internal** physics acceptance (perfect-crystal Darwin curve, strained-layer
+Bragg shift, instrument-convolution sanity, frozen-notebook regression):
 
 ```bash
-python scripts/validate_xrd_physics.py        # report + figure, nonzero exit on failure
+python scripts/validate_xrd_physics.py
 python -m pytest tests/test_xrd_acceptance.py -q
 ```
 
-See [`docs/VALIDATION.md`](docs/VALIDATION.md). Report of record:
-`docs/physics_acceptance.json`.
+See [`docs/VALIDATION.md`](docs/VALIDATION.md).
+
+**External** benchmarking (formulas → constants → literature-scored checks →
+cross-code / data) is planned in
+[`docs/EXTERNAL_BENCHMARKS.md`](docs/EXTERNAL_BENCHMARKS.md). Tier 2 constants
+provenance for GaAs (004) @ 10 keV:
+
+```bash
+python scripts/audit_constants.py
+```
+
+See [`docs/CONSTANTS_PROVENANCE.md`](docs/CONSTANTS_PROVENANCE.md).
 
 ## Paper reproduction
 
