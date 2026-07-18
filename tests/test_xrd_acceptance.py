@@ -24,6 +24,7 @@ from xrd_strain.crystals.gaas_004_10kev_300k import (
 from xrd_strain.crystals.gaas_004_dynamical import (
     xrd_slab_gaas,
     xrd_slab_gaas_lowmem,
+    xrd_slab_gaas_lowmem_with_constants,
     xrd_slab_gaas_with_constants,
 )
 
@@ -91,6 +92,51 @@ def test_modern_constants_match_x0h_susceptibilities():
     np.testing.assert_allclose(c.chi_0.imag, x0h_chi0.imag, rtol=0.06)
     np.testing.assert_allclose(c.chi_h.real, x0h_chih.real, rtol=0.01)
     np.testing.assert_allclose(c.chi_h.imag, x0h_chih.imag, rtol=0.06)
+
+
+def test_production_matches_gid_sl_on_strained_layers():
+    """Tier-4 cross-code check: production calculator vs Stepanov GID_sl.
+
+    Reference curves were computed by the GID_sl server (queried 2026-07-18)
+    for two synthetic strain profiles on a GaAs substrate; the exact server
+    inputs are cached next to the .dat files. See docs/GID_SL_BENCHMARK.md.
+    """
+    c = gaas_004_10kev_300k_constants()
+    theta_b = np.degrees(
+        np.arcsin(c.wavelength_angstrom / (2.0 * (c.lattice_angstrom / 4.0)))
+    )
+    dz = 26.7
+
+    cases = {
+        "gid_sl_uniform_layer.dat": [(100, 1e-3)],
+        "gid_sl_two_step.dat": [(40, 2e-3), (60, 1e-3)],
+    }
+    for fname, layers in cases.items():
+        scan, gid = np.loadtxt(Path(__file__).parent / "data" / fname).T
+        strain = np.zeros(3000)
+        start = 0
+        for n_cells, value in layers:
+            strain[start : start + n_cells] = value
+            start += n_cells
+
+        th = theta_b + scan / 3600.0
+        ours = xrd_slab_gaas_lowmem_with_constants(
+            th,
+            strain,
+            dz,
+            1e-6,
+            a_gaas=c.lattice_angstrom,
+            f_gaas=c.solver_factors,
+            re=c.classical_electron_radius_angstrom,
+            wavelength=c.wavelength_angstrom,
+        )
+
+        mask = gid > 1e-6
+        dlog = np.log10(ours[mask]) - np.log10(gid[mask])
+        assert np.sqrt(np.mean(dlog**2)) < 0.02, fname
+        # Substrate peak must land on the same scan sample.
+        step = scan[1] - scan[0]
+        assert abs(scan[np.argmax(ours)] - scan[np.argmax(gid)]) <= step, fname
 
 
 def test_modern_perfect_crystal_matches_x0h_gid_curve():

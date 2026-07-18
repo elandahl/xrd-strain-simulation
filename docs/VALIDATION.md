@@ -87,3 +87,9 @@ and distinct forward/diffracting factors \(F_0,F_h\). Tests require its
 The notebook implementation remains selectable as
 `gaas_004_10kev_legacy`. See
 [`CONSTANTS_SENSITIVITY.md`](CONSTANTS_SENSITIVITY.md).
+
+Beyond scalar metrics, the production calculator also reproduces full GID_sl
+rocking curves on synthetic strained-layer profiles (uniform layer and
+two-step) to ~1% RMS over 4–5 decades of dynamic range, enforced by
+`test_production_matches_gid_sl_on_strained_layers`. See
+[`GID_SL_BENCHMARK.md`](GID_SL_BENCHMARK.md).

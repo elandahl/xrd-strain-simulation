@@ -1,0 +1,42 @@
+{
+  "reference": "Stepanov GID_sl (x-server.gmca.aps.anl.gov), queried 2026-07-18",
+  "production_calculator": "gaas_004_10kev, instrument=none",
+  "grid": {
+    "dz_angstrom": 26.7,
+    "n_cells": 3000
+  },
+  "cases": {
+    "uniform_layer": {
+      "description": "267 nm GaAs, da/a = +1e-3, on GaAs substrate",
+      "scan_step_arcsec": 0.25,
+      "substrate_peak_arcsec": {
+        "gid_sl": 2.25,
+        "production": 2.25
+      },
+      "substrate_peak_reflectivity": {
+        "gid_sl": 0.94880683,
+        "production": 0.9485913666772027
+      },
+      "log10_rms_diff": 0.00509819412422729,
+      "log10_max_abs_diff": 0.08150509154068601,
+      "log10_correlation": 0.9999913656119105,
+      "passed": true
+    },
+    "two_step": {
+      "description": "106.8 nm at da/a = +2e-3 over 160.2 nm at da/a = +1e-3, on GaAs substrate",
+      "scan_step_arcsec": 0.25,
+      "substrate_peak_arcsec": {
+        "gid_sl": 2.25,
+        "production": 2.25
+      },
+      "substrate_peak_reflectivity": {
+        "gid_sl": 0.95112967,
+        "production": 0.9510331801952745
+      },
+      "log10_rms_diff": 0.005013918550345929,
+      "log10_max_abs_diff": 0.08028692493583522,
+      "log10_correlation": 0.9999900628420304,
+      "passed": true
+    }
+  }
+}

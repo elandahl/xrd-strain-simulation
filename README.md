@@ -82,6 +82,14 @@ Tier-3 one-at-a-time sensitivity and Stepanov X0h comparison:
 [`docs/CONSTANTS_SENSITIVITY.md`](docs/CONSTANTS_SENSITIVITY.md).
 Formula mapping and the corrected \(F_0/F_h\) distinction:
 [`docs/FORMULA_AUDIT.md`](docs/FORMULA_AUDIT.md).
+Tier-4 cross-code benchmark against Stepanov GID_sl on strained-layer
+profiles (~1% agreement over 4–5 decades):
+
+```bash
+python scripts/benchmark_gid_sl.py
+```
+
+See [`docs/GID_SL_BENCHMARK.md`](docs/GID_SL_BENCHMARK.md).
 
 ## Paper reproduction
 
