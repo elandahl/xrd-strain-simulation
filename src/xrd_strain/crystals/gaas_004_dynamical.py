@@ -237,6 +237,22 @@ def xrd_slab_gaas(th_0, strain, dz, eps):
     return intensity
 
 
+@njit
+def xrd_slab_gaas_lowmem(th_0, strain, dz, eps):
+    """Angle-by-angle wrapper around ``xrd_slab_gaas``.
+
+    Produces identical results but allocates the propagation matrices for one
+    angle at a time, so memory stays flat (a few MB) regardless of the number
+    of angular points. The direct call allocates
+    O(n_layers * n_angles * 4 * 4) complex matrices, which exceeds a GB for
+    fine angular grids over ~10 um substrates.
+    """
+    intensity = np.zeros(len(th_0))
+    for j in range(len(th_0)):
+        intensity[j] = xrd_slab_gaas(th_0[j : j + 1], strain, dz, eps)[0]
+    return intensity
+
+
 def _gaussian_filter(x, mean, sig):
     return np.exp(-((x - mean) ** 2) / (2 * sig**2)) / (np.sqrt(2 * np.pi) * sig)
 

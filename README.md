@@ -4,7 +4,15 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
 
 ## Current calculator
 
-- **`gaas_004_10kev`** — GaAs (004) reflection, 10 keV, dynamical diffraction + detector convolution
+- **`gaas_004_10kev`** — GaAs (004) reflection, 10 keV, dynamical diffraction (low-memory angle-by-angle evaluation, supports fine angular grids)
+
+## Instrument models
+
+Switch with `--instrument` (see `docs/INSTRUMENTS.md`):
+
+- `notebook` (default) — multi-Gaussian detector model from the original notebook
+- `aps_7idc` — Gaussian, configurable FWHM (default 1.8 arcsec, per the Sci. Rep. 2022 experiment)
+- `none` — raw dynamical-diffraction curve
 
 ## Quick start
 
@@ -29,7 +37,7 @@ python scripts/run.py \
 | Si, Ge, InSb substrates | `src/xrd_strain/crystals/` + `register_crystal()` |
 | Other reflections / energies | new crystal calculator modules |
 | Grazing-incidence or other geometries | extend calculator interface in `crystals/base.py` |
-| Different detector models | `src/xrd_strain/detector/` |
+| Different instrument/detector models | `src/xrd_strain/detector/` + a branch in `pipeline.run_xrd` |
 
 ## Input format
 

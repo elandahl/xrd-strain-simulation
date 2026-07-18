@@ -8,7 +8,17 @@ M_TO_ANGSTROM = 1e10
 
 @dataclass
 class XrdConfig:
-    """Parameters for XRD rocking curve simulation."""
+    """Parameters for XRD rocking curve simulation.
+
+    ``instrument`` selects the angular-resolution model applied to the
+    computed curve:
+
+    - ``"notebook"``  — multi-Gaussian model inherited from the original
+      notebook / thermo-elastic-gaas (paper-reproduction default).
+    - ``"aps_7idc"``  — single Gaussian with ``instrument_fwhm_arcsec`` FWHM
+      (Sci. Rep. 2022 quotes 0.5 mdeg ≈ 1.8 arcsec at APS 7ID-C).
+    - ``"none"``      — raw dynamical-diffraction curve, no convolution.
+    """
 
     crystal: str = "gaas_004_10kev"
     angle_min: float = 25.98
@@ -16,6 +26,8 @@ class XrdConfig:
     n_points: int = 100
     strain_eps: float = 1e-6
     log10_intensity: bool = True
+    instrument: str = "notebook"
+    instrument_fwhm_arcsec: float = 1.8
 
 
 @dataclass

@@ -3,7 +3,7 @@
 import numpy as np
 
 from xrd_strain.crystals.base import register_crystal
-from xrd_strain.crystals.gaas_004_dynamical import xrd_slab_gaas
+from xrd_strain.crystals.gaas_004_dynamical import xrd_slab_gaas_lowmem
 
 
 class GaAs004Calculator:
@@ -13,7 +13,9 @@ class GaAs004Calculator:
     def compute_intensity(
         self, th_deg: np.ndarray, strain: np.ndarray, dz_angstrom: float, eps: float
     ) -> np.ndarray:
-        return xrd_slab_gaas(th_deg, strain, dz_angstrom, eps)
+        # Low-memory angle-by-angle evaluation; numerically identical to the
+        # original whole-array call (see gaas_004_dynamical.xrd_slab_gaas_lowmem).
+        return xrd_slab_gaas_lowmem(th_deg, strain, dz_angstrom, eps)
 
 
 register_crystal(GaAs004Calculator())

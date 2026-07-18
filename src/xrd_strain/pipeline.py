@@ -4,9 +4,12 @@ import numpy as np
 
 from xrd_strain.config import M_TO_ANGSTROM, DetectorConfig, XrdConfig
 from xrd_strain.crystals.base import get_crystal
+from xrd_strain.detector.gaussian import apply_gaussian_instrument
 from xrd_strain.detector.resolution import apply_detector_resolution
 from xrd_strain.io import StrainProfile
 from xrd_strain.models import XrdResult
+
+INSTRUMENTS = ("notebook", "aps_7idc", "none")
 
 
 def run_xrd(
@@ -34,7 +37,18 @@ def run_xrd(
         config.strain_eps,
     )
 
-    intensity = apply_detector_resolution(rad, detector.as_tuple(), intensity)
+    if config.instrument == "notebook":
+        intensity = apply_detector_resolution(rad, detector.as_tuple(), intensity)
+    elif config.instrument == "aps_7idc":
+        intensity = apply_gaussian_instrument(
+            rad, intensity, config.instrument_fwhm_arcsec
+        )
+    elif config.instrument == "none":
+        pass
+    else:
+        raise ValueError(
+            f"Unknown instrument {config.instrument!r}. Available: {INSTRUMENTS}"
+        )
 
     if config.log10_intensity:
         intensity = np.log10(intensity)
@@ -45,4 +59,5 @@ def run_xrd(
         crystal=config.crystal,
         substrate_material=profile.substrate_material,
         strain_model=profile.model,
+        instrument=config.instrument,
     )
