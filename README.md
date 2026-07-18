@@ -18,7 +18,12 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
 
 ## Instrument models
 
-Switch with `--instrument` (see `docs/INSTRUMENTS.md` for details and the figure guide):
+The full instrument response has an **angular** part (θ convolution, below)
+and a **temporal** part (probe bunch duration; incoherent average of rocking
+curves over delay — `xrd_strain.temporal.run_xrd_delay_averaged`, APS
+24-bunch ≈ 90 ps FWHM). See `docs/INSTRUMENTS.md` for both.
+
+Switch the angular model with `--instrument`:
 
 - `aps_7idc` (default) — single Gaussian at the measured APS 7ID-C resolution
   (default 1.8 arcsec FWHM, configurable). Physical analysis default.

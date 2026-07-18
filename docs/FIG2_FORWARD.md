@@ -59,7 +59,10 @@ change with delay.
 
 `scripts/fig2_delay_average.py` implements this: it runs the strain preset at
 9 Gaussian-weighted delays spanning ±2σ about 0.34 ns (σ = 38 ps), averages
-the rocking curves, and applies the 1.8″ instrument.
+the rocking curves with the temporal-response API
+(`xrd_strain.temporal.run_xrd_delay_averaged`), and applies the 1.8″ angular
+instrument. The temporal and angular responses are the two halves of the full
+instrument model — see [INSTRUMENTS.md](INSTRUMENTS.md).
 
 ![Delay-averaged forward model](images/fig2_delay_average.png)
 

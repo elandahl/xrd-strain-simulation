@@ -10,6 +10,11 @@ M_TO_ANGSTROM = 1e10
 class XrdConfig:
     """Parameters for XRD rocking curve simulation.
 
+    The full instrument response has an *angular* part (selected here) and a
+    *temporal* part (probe bunch duration + timing jitter). The temporal part
+    cannot act on a single strain snapshot — apply it by averaging rocking
+    curves over delay samples with ``xrd_strain.temporal.run_xrd_delay_averaged``.
+
     ``instrument`` selects the angular-resolution model applied to the
     computed curve:
 

@@ -15,10 +15,11 @@ This script:
 1. runs the `paper_fig2_si` strain preset at N Gaussian-weighted delays
    spanning +/- 2 sigma about 0.34 ns (via the sibling strain-wave-simulation
    repo, using its venv python if present);
-2. computes the Si (004) rocking curve for each delay with the production
-   `si_004_10kev` calculator;
-3. forms the weighted average, applies the aps_7idc 1.8 arcsec instrument, and
-   writes `docs/images/fig2_delay_average.png` plus machine-readable metrics
+2. applies the full two-part instrument response with the production
+   `si_004_10kev` calculator: temporal (delay average over the bunch
+   duration, `xrd_strain.temporal`) and angular (aps_7idc 1.8 arcsec
+   Gaussian);
+3. writes `docs/images/fig2_delay_average.png` plus machine-readable metrics
    into `docs/fig2_forward_summary.json`.
 
 Run from the repo root:  python scripts/fig2_delay_average.py
@@ -33,11 +34,13 @@ from pathlib import Path
 
 import numpy as np
 
+from xrd_strain.temporal import APS_24BUNCH_FWHM_PS, gaussian_delay_weights
+
 REPO = Path(__file__).resolve().parents[1]
 STRAIN_REPO = REPO.parent / "strain-wave-simulation"
 DELAY_DIR = STRAIN_REPO / "results" / "paper_fig2_si" / "delays"
 
-BUNCH_FWHM_S = 90e-12       # APS 24-bunch x-ray duration
+BUNCH_FWHM_S = APS_24BUNCH_FWHM_PS * 1e-12
 CENTER_DELAY_S = 0.34e-9    # nominal paper delay
 N_DELAYS = 9                # samples over +/- 2 sigma
 ARCSEC_HALF_RANGE = 160
@@ -52,11 +55,9 @@ def python_in(repo: Path) -> str:
 
 def run_strain_delays() -> tuple[np.ndarray, np.ndarray]:
     """Run the strain preset at each delay; return (times_s, weights)."""
-    sigma = BUNCH_FWHM_S / (2 * np.sqrt(2 * np.log(2)))
-    offsets = np.linspace(-2 * sigma, 2 * sigma, N_DELAYS)
-    weights = np.exp(-(offsets**2) / (2 * sigma**2))
-    weights /= weights.sum()
-    times = CENTER_DELAY_S + offsets
+    times, weights = gaussian_delay_weights(
+        CENTER_DELAY_S, BUNCH_FWHM_S, n_samples=N_DELAYS
+    )
 
     DELAY_DIR.mkdir(parents=True, exist_ok=True)
     code = (
@@ -98,43 +99,47 @@ def main() -> None:
     import matplotlib.pyplot as plt
     from PIL import Image
 
-    from xrd_strain.crystals.base import get_crystal
+    from xrd_strain.config import XrdConfig
     from xrd_strain.crystals.si_004_10kev_300k import si_004_10kev_300k_constants
     from xrd_strain.detector.gaussian import apply_gaussian_instrument
     from xrd_strain.io import load_strain_profile
+    from xrd_strain.pipeline import run_xrd
+    from xrd_strain.temporal import run_xrd_delay_averaged
 
     times, weights = run_strain_delays()
+    profiles = [
+        load_strain_profile(DELAY_DIR / f"strain_{k}.npz")
+        for k in range(len(weights))
+    ]
 
     c = si_004_10kev_300k_constants()
     theta_b = float(
         np.degrees(np.arcsin(c.wavelength_angstrom / (2 * (c.lattice_angstrom / 4))))
     )
-    th = np.linspace(
-        theta_b - ARCSEC_HALF_RANGE / 3600,
-        theta_b + ARCSEC_HALF_RANGE / 3600,
-        N_ANGLES,
+    # Raw (no angular response) config; the angular Gaussian is applied to the
+    # averaged curve afterwards — the two responses are linear and commute.
+    config = XrdConfig(
+        crystal="si_004_10kev",
+        angle_min=theta_b - ARCSEC_HALF_RANGE / 3600,
+        angle_max=theta_b + ARCSEC_HALF_RANGE / 3600,
+        n_points=N_ANGLES,
+        log10_intensity=False,
+        instrument="none",
     )
-    calc = get_crystal("si_004_10kev")
 
-    curves = []
-    for k in range(len(weights)):
-        profile = load_strain_profile(DELAY_DIR / f"strain_{k}.npz")
-        intensity = calc.compute_intensity(
-            th, profile.substrate_strain, profile.dz * 1e10, 1e-6
-        )
-        curves.append(intensity)
-        print(f"XRD delay {k}: t={times[k]*1e12:.0f} ps done")
-    curves = np.asarray(curves)
-    intensity_avg = np.tensordot(weights, curves, axes=1)
+    avg = run_xrd_delay_averaged(profiles, weights, config=config)
+    th = avg.angle_deg
+    intensity_avg = avg.intensity
 
     rad = th * np.pi / 180
     intensity_avg_aps = apply_gaussian_instrument(
         rad, intensity_avg, INSTRUMENT_FWHM_ARCSEC
     )
-    # index of the nominal (center) delay for the single-shot reference
+    # single-shot reference at the nominal (center) delay
     k_center = int(np.argmin(np.abs(times - CENTER_DELAY_S)))
+    single = run_xrd(profiles[k_center], config=config)
     intensity_single_aps = apply_gaussian_instrument(
-        rad, curves[k_center], INSTRUMENT_FWHM_ARCSEC
+        rad, single.intensity, INSTRUMENT_FWHM_ARCSEC
     )
 
     x = (th - theta_b) * 3600

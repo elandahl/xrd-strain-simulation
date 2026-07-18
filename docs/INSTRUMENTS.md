@@ -1,4 +1,49 @@
-# Instrument (angular resolution) models
+# Instrument response models
+
+A time-resolved rocking curve measurement has **two** instrument responses,
+and the forward model must apply both before comparing with data:
+
+| response | physical origin | acts on | implementation |
+|---|---|---|---|
+| **Angular** | monochromator / analyzer / detector acceptance | the rocking curve, convolution in θ | `XrdConfig(instrument=...)`, this page |
+| **Temporal** | x-ray bunch duration (+ timing jitter) | the signal vs pump-probe delay | `xrd_strain.temporal`, see below |
+
+The two are independent, both linear on intensity, and therefore commute —
+but both must be applied on *linear* intensity, before any log₁₀.
+
+## Temporal response (delay averaging)
+
+The probe is not a delta function in time. In the APS 24-bunch mode used for
+the Sci. Rep. 2022 experiment, the x-ray bunch duration was **~90 ps FWHM**
+(`temporal.APS_24BUNCH_FWHM_PS`); timing jitter is negligible in comparison.
+During one bunch the acoustic wavefront moves \(v \cdot 90\,\mathrm{ps}\)
+(~760 nm in Si), so the measured curve is an incoherent average over delay:
+
+\[ I_{\mathrm{meas}}(\theta; t_0) = \sum_k w_k\, I(\theta; t_k) \]
+
+This cannot be applied to a single strain snapshot. Compute strain profiles
+at several delays and average:
+
+```python
+from xrd_strain import gaussian_delay_weights, run_xrd_delay_averaged
+
+times, weights = gaussian_delay_weights(0.34e-9, 90e-12, n_samples=9)
+# ... run the strain model at each time in `times`, load the profiles ...
+result = run_xrd_delay_averaged(profiles, weights, config=config)
+```
+
+Consequences for interpretation (demonstrated in
+[FIG2_FORWARD.md](FIG2_FORWARD.md), `scripts/fig2_delay_average.py`):
+
+- coherent **depth fringes** (spacing set by the instantaneous strained
+  depth) scramble and cancel;
+- **Brillouin sidebands** survive, because their angle is set by the acoustic
+  pulse-train period, which is delay-independent.
+
+Different sources need different kernels: APS 24-bunch ≈ 90 ps FWHM; the
+Pohang Light Source dense-fill data will have its own bunch duration.
+
+## Angular response models
 
 The computed dynamical-diffraction rocking curve can be convolved with an
 angular-resolution model before output. Select with `--instrument` on the CLI
