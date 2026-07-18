@@ -9,7 +9,15 @@ from xrd_strain.detector.resolution import apply_detector_resolution
 from xrd_strain.io import StrainProfile
 from xrd_strain.models import XrdResult
 
-INSTRUMENTS = ("notebook", "aps_7idc", "none")
+INSTRUMENTS = ("empirical", "aps_7idc", "none")
+
+# Backward-compatible aliases for renamed instruments.
+_INSTRUMENT_ALIASES = {"notebook": "empirical"}
+
+
+def resolve_instrument(name: str) -> str:
+    """Map deprecated instrument names to their current key."""
+    return _INSTRUMENT_ALIASES.get(name, name)
 
 
 def run_xrd(
@@ -37,13 +45,14 @@ def run_xrd(
         config.strain_eps,
     )
 
-    if config.instrument == "notebook":
+    instrument = resolve_instrument(config.instrument)
+    if instrument == "empirical":
         intensity = apply_detector_resolution(rad, detector.as_tuple(), intensity)
-    elif config.instrument == "aps_7idc":
+    elif instrument == "aps_7idc":
         intensity = apply_gaussian_instrument(
             rad, intensity, config.instrument_fwhm_arcsec
         )
-    elif config.instrument == "none":
+    elif instrument == "none":
         pass
     else:
         raise ValueError(
@@ -59,5 +68,5 @@ def run_xrd(
         crystal=config.crystal,
         substrate_material=profile.substrate_material,
         strain_model=profile.model,
-        instrument=config.instrument,
+        instrument=instrument,
     )

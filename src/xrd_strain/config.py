@@ -13,10 +13,14 @@ class XrdConfig:
     ``instrument`` selects the angular-resolution model applied to the
     computed curve:
 
-    - ``"notebook"``  — multi-Gaussian model inherited from the original
-      notebook / thermo-elastic-gaas (paper-reproduction default).
-    - ``"aps_7idc"``  — single Gaussian with ``instrument_fwhm_arcsec`` FWHM
-      (Sci. Rep. 2022 quotes 0.5 mdeg ≈ 1.8 arcsec at APS 7ID-C).
+    - ``"empirical"`` — multi-Gaussian *effective* resolution (instrument +
+      sample + fit) inherited from the original notebook / thermo-elastic-gaas.
+      Dominant component σ ≈ 22 arcsec, so it smooths heavily. This is the
+      paper-reproduction default because it best matches the smoothness of the
+      published Fig. 3 fit curve. (Deprecated alias: ``"notebook"``.)
+    - ``"aps_7idc"``  — single Gaussian with ``instrument_fwhm_arcsec`` FWHM.
+      This is the *physical* instrument resolution the paper quotes for APS
+      7ID-C (0.5 mdeg ≈ 1.8 arcsec), i.e. a light blur only.
     - ``"none"``      — raw dynamical-diffraction curve, no convolution.
     """
 
@@ -26,7 +30,7 @@ class XrdConfig:
     n_points: int = 100
     strain_eps: float = 1e-6
     log10_intensity: bool = True
-    instrument: str = "notebook"
+    instrument: str = "empirical"
     instrument_fwhm_arcsec: float = 1.8
 
 

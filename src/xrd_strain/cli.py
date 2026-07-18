@@ -31,9 +31,10 @@ def main() -> None:
     )
     parser.add_argument(
         "--instrument",
-        default="notebook",
-        choices=list(INSTRUMENTS),
-        help="Angular resolution model (see docs/INSTRUMENTS.md)",
+        default="empirical",
+        choices=list(INSTRUMENTS) + ["notebook"],
+        help="Angular resolution model; 'notebook' is a deprecated alias for "
+        "'empirical' (see docs/INSTRUMENTS.md)",
     )
     parser.add_argument(
         "--instrument-fwhm-arcsec",

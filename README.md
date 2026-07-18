@@ -8,11 +8,13 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
 
 ## Instrument models
 
-Switch with `--instrument` (see `docs/INSTRUMENTS.md`):
+Switch with `--instrument` (see `docs/INSTRUMENTS.md` for details and the figure guide):
 
-- `notebook` (default) — multi-Gaussian detector model from the original notebook
-- `aps_7idc` — Gaussian, configurable FWHM (default 1.8 arcsec, per the Sci. Rep. 2022 experiment)
+- `empirical` (default) — multi-Gaussian **effective** resolution (instrument + sample + fit) from the original notebook; dominant σ ≈ 22 arcsec. Heavy smoothing; best matches the smoothness of the published Fig. 3 fit curve. (Deprecated alias: `notebook`.)
+- `aps_7idc` — single Gaussian at the paper's **stated** APS 7ID-C resolution (default 1.8 arcsec FWHM, configurable). Light blur only.
 - `none` — raw dynamical-diffraction curve
+
+Note: the `empirical` model reproduces the paper's *plotted* curve better than the paper's own stated 1.8 arcsec resolution does — the published curve is broader than pure instrument response (sample mosaic, depth averaging, beam divergence, fit smoothing). See `docs/INSTRUMENTS.md`.
 
 ## Quick start
 

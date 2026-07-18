@@ -62,3 +62,12 @@ def test_instrument_options():
     assert np.all(np.isfinite(raw.intensity))
     assert np.all(np.isfinite(aps.intensity))
     assert not np.allclose(raw.intensity, aps.intensity)
+
+
+def test_notebook_alias_maps_to_empirical():
+    profile = _dummy_profile()
+    empirical = run_xrd(profile, config=XrdConfig(n_points=30, instrument="empirical"))
+    aliased = run_xrd(profile, config=XrdConfig(n_points=30, instrument="notebook"))
+    np.testing.assert_allclose(aliased.intensity, empirical.intensity)
+    # Result records the resolved (canonical) name, not the alias.
+    assert aliased.instrument == "empirical"
