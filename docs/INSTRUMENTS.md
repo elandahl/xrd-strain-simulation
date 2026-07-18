@@ -60,6 +60,14 @@ want the response of the *stated instrument alone*.
 
 ## Reading the validation-matrix rocking-curve figure
 
+Benchmark target — the inset rocking curve of the published Fig. 3 (Jo et al.,
+Sci. Rep. **12**, 16606 (2022), CC BY 4.0): log intensity vs θ − θ_B, with the
+thermal contribution enhancing the lower-angle side:
+
+![Published Sci. Rep. Fig. 3](images/published_fig3_scirep_2022.png)
+
+Our computed rocking curves:
+
 ![rocking curve matrix](images/matrix_rocking.png)
 
 This figure is a 2×2 matrix (2 strain models × 2 instruments) drawn as **two
