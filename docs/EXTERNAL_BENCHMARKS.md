@@ -10,7 +10,7 @@ layer before fitting APS/PLS data.
 | **1. Formulas** | Look up textbook/paper formulas; confirm they match the code and the Sci. Rep. paper | **GaAs (004) audit complete** — corrected \(F_0=F_h\) approximation; see [FORMULA_AUDIT.md](FORMULA_AUDIT.md) |
 | **2. Constants** | Provenance table for every hard-coded constant at the correct energy, reflection, material, and temperature | **Complete for GaAs (004), 10 keV, 300 K** — see [CONSTANTS_PROVENANCE.md](CONSTANTS_PROVENANCE.md) |
 | **3. Internal checks vs external refs** | Re-score perfect-crystal Darwin curve and strained-layer Bragg shift against literature formulas and Stepanov X0h using *audited* constants | **Complete for GaAs (004), 10 keV, 300 K, σ** — FWHM and peak R match X0h/GID_sl to ~0.1%; see [CONSTANTS_SENSITIVITY.md](CONSTANTS_SENSITIVITY.md) |
-| **4. Cross-code / arbitrary strain** | Compare against other dynamical XRD methods (e.g. Stepanov GID_sl / X0h, `xrayutilities`) on synthetic and paper strain fields; eventually APS/PLS data | **GID_sl phase complete** — synthetic layers agree to ~1%; the Figure 3 d'Alembert profile gives 0.9977 correlation with production constants and 0.99988 when susceptibilities are controlled. See [GID_SL_BENCHMARK.md](GID_SL_BENCHMARK.md) and [FIG3_GID_SL_BENCHMARK.md](FIG3_GID_SL_BENCHMARK.md). A second independent code remains |
+| **4. Cross-code / arbitrary strain** | Compare against other dynamical XRD methods (e.g. Stepanov GID_sl / X0h, `xrayutilities`) on synthetic and paper strain fields; eventually APS/PLS data | **Two independent codes complete.** GID_sl: synthetic layers ~1%, Fig. 3 d'Alembert 0.9977 (0.99988 with matched χ). xrayutilities (both GaAs and Si): production corr ≥ 0.9998, and our engine reproduces it to ≤0.005 log RMS with matched χ. See [GID_SL_BENCHMARK.md](GID_SL_BENCHMARK.md), [FIG3_GID_SL_BENCHMARK.md](FIG3_GID_SL_BENCHMARK.md), [XU_BENCHMARK.md](XU_BENCHMARK.md). |
 
 ## Suggested order of work
 
@@ -26,8 +26,9 @@ layer before fitting APS/PLS data.
    [CONSTANTS_PROVENANCE_SI.md](CONSTANTS_PROVENANCE_SI.md) and
    [FIG2_FORWARD.md](FIG2_FORWARD.md). Brillouin sidebands present; fringe
    location ~68″ vs paper ~61″ left for later tuning.
-8. Second independent implementation with controlled constants (e.g. `xrayutilities`) ← **next external check when resumed**
-9. APS / PLS experimental data
+8. Second independent implementation with controlled constants
+   (`xrayutilities`, both GaAs and Si) — **done**; see [XU_BENCHMARK.md](XU_BENCHMARK.md)
+9. APS / PLS experimental data ← **next**
 
 ## Supporting practices
 

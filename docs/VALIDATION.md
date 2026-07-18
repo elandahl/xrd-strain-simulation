@@ -101,3 +101,12 @@ using GID_sl's own susceptibilities in the same local solver raises this to
 scattering-database sensitivity from solver agreement and is enforced by
 `test_fig3_strain_matches_gid_sl_when_constants_are_controlled`. See
 [`FIG3_GID_SL_BENCHMARK.md`](FIG3_GID_SL_BENCHMARK.md).
+
+A **second independent code**, `xrayutilities`, cross-checks *both* GaAs and
+Si (004). The production calculators keep log₁₀ correlation ≥ 0.9998 with
+xrayutilities' DynamicalModel across the whole curve, and our solver
+reproduces it to ≤0.005 log-RMS when fed xrayutilities' own susceptibilities —
+proving the numerical engine is equivalent and isolating the deliberate
+Debye-Waller database difference. Enforced by
+`tests/test_xrayutilities_benchmark.py` (auto-skips when xrayutilities is not
+installed). See [`XU_BENCHMARK.md`](XU_BENCHMARK.md).

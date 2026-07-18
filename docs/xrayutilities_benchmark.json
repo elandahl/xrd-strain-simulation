@@ -1,0 +1,213 @@
+{
+  "reference": "xrayutilities 1.7.12 DynamicalModel, S polarization, resolution_width=0",
+  "conditions": "10 keV, (004), symmetric Bragg, no instrument convolution",
+  "materials": {
+    "GaAs": {
+      "calculator": "gaas_004_10kev",
+      "susceptibilities": {
+        "xu_chi_0": [
+          -1.812034925670682e-05,
+          3.7707569945362765e-07
+        ],
+        "xu_chi_h": [
+          -1.1054790508450003e-05,
+          3.770756994482068e-07
+        ],
+        "ours_chi_0": [
+          -1.8139398943391397e-05,
+          3.805154503754098e-07
+        ],
+        "ours_chi_h": [
+          -1.0321404916281338e-05,
+          3.555356082920038e-07
+        ]
+      },
+      "cases": {
+        "perfect": {
+          "layers_cells_strain": [],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.0603613336014516,
+            "log10_max_abs_diff": 0.1548213318052531,
+            "log10_correlation": 0.9999580716933594,
+            "peak_arcsec": 2.5,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9708510697636689,
+            "reference_peak_reflectivity": 0.9888857607073741
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 8.320532006909126e-06,
+            "log10_max_abs_diff": 1.588607328439906e-05,
+            "log10_correlation": 0.9999999999963576,
+            "peak_arcsec": 2.0,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9888857240580399,
+            "reference_peak_reflectivity": 0.9888857607073741
+          },
+          "passed": true
+        },
+        "uniform_layer": {
+          "layers_cells_strain": [
+            [
+              100,
+              0.001
+            ]
+          ],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.059619760105191814,
+            "log10_max_abs_diff": 0.15257612798621484,
+            "log10_correlation": 0.9999486062301544,
+            "peak_arcsec": 2.5,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9453456139892483,
+            "reference_peak_reflectivity": 0.9630590202635284
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 0.004046139480343036,
+            "log10_max_abs_diff": 0.012922888814146827,
+            "log10_correlation": 0.9999918428611072,
+            "peak_arcsec": 2.0,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9630454388982151,
+            "reference_peak_reflectivity": 0.9630590202635284
+          },
+          "passed": true
+        },
+        "two_step": {
+          "layers_cells_strain": [
+            [
+              40,
+              0.002
+            ],
+            [
+              60,
+              0.001
+            ]
+          ],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.059843994107557356,
+            "log10_max_abs_diff": 0.15037303423664639,
+            "log10_correlation": 0.9998391562049876,
+            "peak_arcsec": 2.5,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9476096589408297,
+            "reference_peak_reflectivity": 0.9655092063616061
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 0.002664162088043715,
+            "log10_max_abs_diff": 0.005616323657747557,
+            "log10_correlation": 0.9999873472263247,
+            "peak_arcsec": 2.0,
+            "reference_peak_arcsec": 2.0,
+            "peak_reflectivity": 0.9654582332857519,
+            "reference_peak_reflectivity": 0.9655092063616061
+          },
+          "passed": true
+        }
+      }
+    },
+    "Si": {
+      "calculator": "si_004_10kev",
+      "susceptibilities": {
+        "xu_chi_0": [
+          -9.774626478947252e-06,
+          1.5181577556354896e-07
+        ],
+        "xu_chi_h": [
+          -5.309275456634442e-06,
+          1.5181577556136642e-07
+        ],
+        "ours_chi_0": [
+          -9.774486812470125e-06,
+          1.4709246041592354e-07
+        ],
+        "ours_chi_h": [
+          -4.846925727498195e-06,
+          1.3817222659556702e-07
+        ]
+      },
+      "cases": {
+        "perfect": {
+          "layers_cells_strain": [],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.07949390897292646,
+            "log10_max_abs_diff": 0.16203469780743562,
+            "log10_correlation": 0.9999668094644144,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9750958422327504,
+            "reference_peak_reflectivity": 0.9775915266012056
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 1.482931864048093e-05,
+            "log10_max_abs_diff": 9.975827681985017e-05,
+            "log10_correlation": 0.9999999999764634,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9775878870231944,
+            "reference_peak_reflectivity": 0.9775915266012056
+          },
+          "passed": true
+        },
+        "uniform_layer": {
+          "layers_cells_strain": [
+            [
+              100,
+              0.001
+            ]
+          ],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.07873110064943147,
+            "log10_max_abs_diff": 0.16179502602603746,
+            "log10_correlation": 0.9999514705937024,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9662088537607652,
+            "reference_peak_reflectivity": 0.9683671209971432
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 0.00451627679640854,
+            "log10_max_abs_diff": 0.014918045439719307,
+            "log10_correlation": 0.9999891445559971,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9683652640101115,
+            "reference_peak_reflectivity": 0.9683671209971432
+          },
+          "passed": true
+        },
+        "two_step": {
+          "layers_cells_strain": [
+            [
+              40,
+              0.002
+            ],
+            [
+              60,
+              0.001
+            ]
+          ],
+          "production_vs_xu": {
+            "log10_rms_diff": 0.07892880714576367,
+            "log10_max_abs_diff": 0.16054934206698318,
+            "log10_correlation": 0.9998741486124365,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9663684079438476,
+            "reference_peak_reflectivity": 0.9684631496992083
+          },
+          "matched_vs_xu": {
+            "log10_rms_diff": 0.0027838068547302907,
+            "log10_max_abs_diff": 0.008469154355400299,
+            "log10_correlation": 0.9999875929528926,
+            "peak_arcsec": 1.5,
+            "reference_peak_arcsec": 1.5,
+            "peak_reflectivity": 0.9684496414626333,
+            "reference_peak_reflectivity": 0.9684631496992083
+          },
+          "passed": true
+        }
+      }
+    }
+  },
+  "passed": true
+}

@@ -109,6 +109,16 @@ python scripts/benchmark_fig3_gid_sl.py
 See
 [`docs/FIG3_GID_SL_BENCHMARK.md`](docs/FIG3_GID_SL_BENCHMARK.md).
 
+Tier-4 second independent code — `xrayutilities` DynamicalModel — cross-checks
+both GaAs and Si (004):
+
+```bash
+pip install -e '.[external]'   # needs OpenMP to build xrayutilities; see docs
+python scripts/benchmark_xrayutilities.py
+```
+
+See [`docs/XU_BENCHMARK.md`](docs/XU_BENCHMARK.md).
+
 ## Paper reproduction
 
 The full combined pipeline for the published paper remains at [thermo-elastic-gaas](https://github.com/elandahl/thermo-elastic-gaas). Chain this repo with `strain-wave-simulation` to reproduce the XRD step.

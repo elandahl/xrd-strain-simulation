@@ -17,6 +17,10 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+# Second external cross-code benchmark (docs/XU_BENCHMARK.md). Builds from
+# source and needs OpenMP; on macOS: brew install libomp and set LDFLAGS/
+# CPPFLAGS/CFLAGS to its prefix before installing.
+external = ["xrayutilities"]
 
 [project.scripts]
 xrd-strain-simulation = "xrd_strain.cli:main"
