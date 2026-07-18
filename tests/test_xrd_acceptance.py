@@ -139,6 +139,71 @@ def test_production_matches_gid_sl_on_strained_layers():
         assert abs(scan[np.argmax(ours)] - scan[np.argmax(gid)]) <= step, fname
 
 
+def test_fig3_strain_matches_gid_sl_when_constants_are_controlled():
+    """Realistic d'Alembert strain agrees cross-code with like-for-like chi.
+
+    The production curve is also checked, but its expected residual includes
+    the deliberate Waasmaier/Henke/Stevenson vs X0h database difference.
+    Every tenth cached scan point is used to keep the test runtime practical.
+    """
+    data_dir = Path(__file__).parent / "data"
+    with np.load(
+        data_dir / "fig3_dalembert_substrate_strain.npz", allow_pickle=False
+    ) as data:
+        strain = data["substrate_strain"]
+        dz = float(data["dz_angstrom"])
+    scan, gid = np.loadtxt(data_dir / "gid_sl_fig3_dalembert.dat").T
+    scan = scan[::10]
+    gid = gid[::10]
+
+    c = gaas_004_10kev_300k_constants()
+    theta_b = np.degrees(
+        np.arcsin(c.wavelength_angstrom / (2.0 * (c.lattice_angstrom / 4.0)))
+    )
+    theta = theta_b + scan / 3600.0
+
+    scale = (
+        -c.classical_electron_radius_angstrom
+        * c.wavelength_angstrom**2
+        / (np.pi * c.lattice_angstrom**3)
+    )
+    x0h_chi0 = -1.8040e-5 + 1j * 3.6087e-7
+    x0h_chih = -1.0360e-5 + 1j * 3.3717e-7
+
+    def factor(chi):
+        return chi.real / scale + 1j * (-chi.imag / scale)
+
+    curves = {}
+    for name, factors in {
+        "production": c.solver_factors,
+        "gid_constants_matched": np.array(
+            [factor(x0h_chi0), factor(x0h_chih)], dtype=np.complex128
+        ),
+    }.items():
+        curves[name] = xrd_slab_gaas_lowmem_with_constants(
+            theta,
+            strain,
+            dz,
+            1e-6,
+            a_gaas=c.lattice_angstrom,
+            f_gaas=factors,
+            re=c.classical_electron_radius_angstrom,
+            wavelength=c.wavelength_angstrom,
+        )
+
+    mask = gid > 1e-6
+    log_gid = np.log10(gid[mask])
+    production_log = np.log10(curves["production"][mask])
+    matched_log = np.log10(curves["gid_constants_matched"][mask])
+    production_rms = np.sqrt(np.mean((production_log - log_gid) ** 2))
+    matched_rms = np.sqrt(np.mean((matched_log - log_gid) ** 2))
+
+    assert np.corrcoef(log_gid, production_log)[0, 1] > 0.994
+    assert matched_rms < 0.03
+    assert np.corrcoef(log_gid, matched_log)[0, 1] > 0.999
+    assert matched_rms < production_rms / 3.0
+
+
 def test_modern_perfect_crystal_matches_x0h_gid_curve():
     """Production calculator matches the independent absorbing X0h/GID curve."""
     c = gaas_004_10kev_300k_constants()

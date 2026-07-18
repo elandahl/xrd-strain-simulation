@@ -85,9 +85,10 @@ relative to the substrate Bragg angle, reflectivity) retrievable via
 
 ## Scope and next steps
 
-- This is the smoke-test tier: synthetic step profiles. The next Tier-4 items
-  are (a) the paper Fig. 3 thermoelastic strain field through both codes, and
-  (b) a second independent implementation (e.g. `xrayutilities`).
+- This is the smoke-test tier: synthetic step profiles. The paper Figure 3
+  d'Alembert strain comparison is now complete; see
+  [FIG3_GID_SL_BENCHMARK.md](FIG3_GID_SL_BENCHMARK.md). A second independent
+  implementation (e.g. `xrayutilities`) remains.
 - The legacy calculator (`gaas_004_10kev_legacy`) is *not* expected to pass
   this benchmark — it carries the archival F₀=Fₕ approximation and constants;
   see [CONSTANTS_SENSITIVITY.md](CONSTANTS_SENSITIVITY.md).

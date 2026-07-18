@@ -90,6 +90,15 @@ python scripts/benchmark_gid_sl.py
 ```
 
 See [`docs/GID_SL_BENCHMARK.md`](docs/GID_SL_BENCHMARK.md).
+The realistic Figure 3 d'Alembert strain benchmark, including a controlled
+comparison using GID_sl's own susceptibilities:
+
+```bash
+python scripts/benchmark_fig3_gid_sl.py
+```
+
+See
+[`docs/FIG3_GID_SL_BENCHMARK.md`](docs/FIG3_GID_SL_BENCHMARK.md).
 
 ## Paper reproduction
 

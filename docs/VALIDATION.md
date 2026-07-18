@@ -93,3 +93,11 @@ rocking curves on synthetic strained-layer profiles (uniform layer and
 two-step) to ~1% RMS over 4–5 decades of dynamic range, enforced by
 `test_production_matches_gid_sl_on_strained_layers`. See
 [`GID_SL_BENCHMARK.md`](GID_SL_BENCHMARK.md).
+
+The d'Alembert Figure 3 strain profile is also checked against GID_sl. With
+the normal production constants the full log curves correlate at 0.9977;
+using GID_sl's own susceptibilities in the same local solver raises this to
+0.99988 and reduces log-RMS residual from 0.0644 to 0.0144. This separates
+scattering-database sensitivity from solver agreement and is enforced by
+`test_fig3_strain_matches_gid_sl_when_constants_are_controlled`. See
+[`FIG3_GID_SL_BENCHMARK.md`](FIG3_GID_SL_BENCHMARK.md).

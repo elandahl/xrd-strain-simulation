@@ -7,6 +7,7 @@
 | `xrd_acceptance.png` | Three-panel internal physics acceptance: (1) unstrained perfect-crystal Darwin curve at the Bragg angle, (2) strained-layer peaks landing on the kinematic `−ε·tan(θ_B)` prediction lines, (3) instrument convolution broadening only. | `scripts/validate_xrd_physics.py` | Current (2026-07-18 run). See `../VALIDATION.md`. |
 | `constants_sensitivity.png` | Tier-3 external benchmark: one-at-a-time sensitivity of the GaAs (004), 10 keV perfect-crystal curve to \(a,f_0,f',f''\), CODATA constants, and 300 K Debye–Waller factors; shaded band is the independent Stepanov X0h σ Darwin-width range. | `scripts/benchmark_constants_sensitivity.py` | Current (2026-07-18 run). See `../CONSTANTS_SENSITIVITY.md`. |
 | `gid_sl_benchmark.png` | Tier-4 cross-code benchmark: production calculator vs Stepanov GID_sl on a uniform strained layer and a two-step strain profile (GaAs 004, 10 keV, σ, no instrument). Top: curve overlays (log scale); bottom: pointwise log₁₀ residual, ~1% RMS agreement. | `scripts/benchmark_gid_sl.py` | Current (2026-07-18 run). See `../GID_SL_BENCHMARK.md`. |
+| `fig3_gid_sl_benchmark.png` | Realistic Tier-4 comparison using the paper Figure 3 d'Alembert strain at 1.8 ns. Shows the full curve, Darwin-peak zoom, residuals for production and GID-matched susceptibilities, and the source strain. | `scripts/benchmark_fig3_gid_sl.py` | Current (2026-07-18 run). See `../FIG3_GID_SL_BENCHMARK.md`. |
 
 Guide to reading this figure and the instrument-model rationale:
 `../INSTRUMENTS.md`. The companion strain-model comparison lives in

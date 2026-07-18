@@ -1,0 +1,43 @@
+{
+  "reference": "Stepanov GID_sl, X0h database, GaAs 004, 10 keV, sigma, symmetric Bragg, instrument=none; queried 2026-07-18",
+  "strain_source": {
+    "model": "ttm_dalembert_cr_gaas",
+    "preset": "paper_fig3_gaas",
+    "t_max_s": 1.8e-09,
+    "dz_angstrom": 26.7,
+    "n_cells": 3746
+  },
+  "gid_sl_susceptibilities": {
+    "chi_0": [
+      -1.804e-05,
+      3.6087e-07
+    ],
+    "chi_h": [
+      -1.036e-05,
+      3.3717e-07
+    ]
+  },
+  "production_constants": {
+    "log10_rms_diff": 0.06443336015131036,
+    "log10_abs_diff_p95": 0.12542406185158494,
+    "log10_max_abs_diff": 0.560972773929413,
+    "log10_correlation": 0.9976814584309941,
+    "peak_arcsec": 1.0,
+    "peak_reflectivity": 0.9592530312419016,
+    "reference_peak_arcsec": 1.0,
+    "reference_peak_reflectivity": 0.95979704,
+    "centroid_arcsec": -2.5087666894883864
+  },
+  "gid_constants_matched": {
+    "log10_rms_diff": 0.014436791824361738,
+    "log10_abs_diff_p95": 0.018091643379364974,
+    "log10_max_abs_diff": 0.39286329701155065,
+    "log10_correlation": 0.999879320934803,
+    "peak_arcsec": 1.0,
+    "peak_reflectivity": 0.9615008811129644,
+    "reference_peak_arcsec": 1.0,
+    "reference_peak_reflectivity": 0.95979704,
+    "centroid_arcsec": -2.5805468235554945
+  },
+  "passed": true
+}
