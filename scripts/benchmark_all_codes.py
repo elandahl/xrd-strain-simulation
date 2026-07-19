@@ -17,6 +17,14 @@ arcsec grid); ours and xrayutilities are evaluated on the same scan about each
 code's own kinematic Bragg angle.
 
 Outputs ``docs/images/benchmark_all_codes.png``.
+
+External reference codes (see docs/EXTERNAL_BENCHMARKS.md for full citations):
+
+* xrayutilities 1.7.12 -- https://xrayutilities.sourceforge.io/
+  (Kriegner, Wintersberger & Stangl, J. Appl. Cryst. 46, 1162 (2013)).
+* Stepanov GID_sl / X0h -- https://x-server.gmca.aps.anl.gov/GID_sl.html
+  (Stepanov et al., Phys. Rev. B 57, 4829 (1998)); cached curves in
+  tests/data/gid_sl_combined/.
 """
 
 from __future__ import annotations
