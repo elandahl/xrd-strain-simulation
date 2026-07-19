@@ -35,7 +35,10 @@ def run_xrd(
             f"crystal calculator substrate {crystal.substrate_material!r}."
         )
 
-    th_deg = np.linspace(config.angle_min, config.angle_max, config.n_points)
+    default_min, default_max = crystal.default_angle_range_deg
+    angle_min = default_min if config.angle_min is None else config.angle_min
+    angle_max = default_max if config.angle_max is None else config.angle_max
+    th_deg = np.linspace(angle_min, angle_max, config.n_points)
     rad = th_deg * np.pi / 180
 
     intensity = crystal.compute_intensity(

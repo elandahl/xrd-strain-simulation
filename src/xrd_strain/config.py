@@ -30,8 +30,10 @@ class XrdConfig:
     """
 
     crystal: str = "gaas_004_10kev"
-    angle_min: float = 25.98
-    angle_max: float = 26.08
+    # None centers the scan on the selected calculator's kinematic Bragg
+    # angle. Explicit limits remain available for measured scan grids.
+    angle_min: float | None = None
+    angle_max: float | None = None
     n_points: int = 100
     strain_eps: float = 1e-6
     log10_intensity: bool = True

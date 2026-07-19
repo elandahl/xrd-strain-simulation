@@ -12,6 +12,7 @@ class CrystalCalculator(Protocol):
 
     name: str
     substrate_material: str
+    default_angle_range_deg: tuple[float, float]
 
     def compute_intensity(
         self, th_deg: np.ndarray, strain: np.ndarray, dz_angstrom: float, eps: float

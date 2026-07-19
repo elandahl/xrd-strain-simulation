@@ -102,11 +102,16 @@ scattering-database sensitivity from solver agreement and is enforced by
 `test_fig3_strain_matches_gid_sl_when_constants_are_controlled`. See
 [`FIG3_GID_SL_BENCHMARK.md`](FIG3_GID_SL_BENCHMARK.md).
 
-A **second independent code**, `xrayutilities`, cross-checks *both* GaAs and
-Si (004). The production calculators keep log₁₀ correlation ≥ 0.9998 with
+A **second independent code**, `xrayutilities`, cross-checks GaAs, Si, Ge,
+and InSb (004). The production calculators keep log₁₀ correlation ≥ 0.99949 with
 xrayutilities' DynamicalModel across the whole curve, and our solver
 reproduces it to ≤0.005 log-RMS when fed xrayutilities' own susceptibilities —
 proving the numerical engine is equivalent and isolating the deliberate
 Debye-Waller database difference. Enforced by
 `tests/test_xrayutilities_benchmark.py` (auto-skips when xrayutilities is not
 installed). See [`XU_BENCHMARK.md`](XU_BENCHMARK.md).
+
+Ge and InSb are independently checked against Stepanov GID_sl/X0h on perfect,
+uniform-layer, and two-step profiles. Ge closes to ≤0.0051 log-RMS; InSb to
+≤0.0299 with correlation ≥0.999924. See
+[`GID_SL_GE_INSB_BENCHMARK.md`](GID_SL_GE_INSB_BENCHMARK.md).

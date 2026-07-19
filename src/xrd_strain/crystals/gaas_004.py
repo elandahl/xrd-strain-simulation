@@ -11,12 +11,24 @@ from xrd_strain.crystals.gaas_004_dynamical import (
     xrd_slab_gaas_lowmem_with_constants,
 )
 
+_CONSTANTS = gaas_004_10kev_300k_constants()
+_THETA_B_DEG = float(
+    np.degrees(
+        np.arcsin(
+            _CONSTANTS.wavelength_angstrom
+            / (2.0 * (_CONSTANTS.lattice_angstrom / 4.0))
+        )
+    )
+)
+_DEFAULT_RANGE = (_THETA_B_DEG - 0.05, _THETA_B_DEG + 0.05)
+
 
 class GaAs004Calculator:
     """Externally benchmarked GaAs (004), 10 keV, 300 K calculator."""
 
     name = "gaas_004_10kev"
     substrate_material = "GaAs"
+    default_angle_range_deg = _DEFAULT_RANGE
 
     def compute_intensity(
         self, th_deg: np.ndarray, strain: np.ndarray, dz_angstrom: float, eps: float
@@ -39,6 +51,7 @@ class GaAs004LegacyCalculator:
 
     name = "gaas_004_10kev_legacy"
     substrate_material = "GaAs"
+    default_angle_range_deg = _DEFAULT_RANGE
 
     def compute_intensity(
         self, th_deg: np.ndarray, strain: np.ndarray, dz_angstrom: float, eps: float

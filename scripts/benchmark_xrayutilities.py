@@ -47,6 +47,10 @@ from xrd_strain.crystals.gaas_004_10kev_300k import gaas_004_10kev_300k_constant
 from xrd_strain.crystals.gaas_004_dynamical import (
     xrd_slab_gaas_lowmem_with_constants,
 )
+from xrd_strain.crystals.ge_004_10kev_300k import ge_004_10kev_300k_constants
+from xrd_strain.crystals.insb_004_10kev_300k import (
+    insb_004_10kev_300k_constants,
+)
 from xrd_strain.crystals.si_004_10kev_300k import si_004_10kev_300k_constants
 
 REPO = Path(__file__).resolve().parents[1]
@@ -77,6 +81,16 @@ MATERIALS = {
         "xu_material": xu.materials.Si,
         "constants": si_004_10kev_300k_constants(),
         "calculator": "si_004_10kev",
+    },
+    "Ge": {
+        "xu_material": xu.materials.Ge,
+        "constants": ge_004_10kev_300k_constants(),
+        "calculator": "ge_004_10kev",
+    },
+    "InSb": {
+        "xu_material": xu.materials.InSb,
+        "constants": insb_004_10kev_300k_constants(),
+        "calculator": "insb_004_10kev",
     },
 }
 
@@ -189,7 +203,7 @@ def main() -> int:
     }
 
     fig, axes = plt.subplots(
-        2, len(MATERIALS), figsize=(13, 8), height_ratios=[3, 1]
+        2, len(MATERIALS), figsize=(20, 8), height_ratios=[3, 1]
     )
     scan_step = float(SCAN[1] - SCAN[0])
     all_ok = True

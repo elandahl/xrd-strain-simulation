@@ -30,6 +30,12 @@ from xrd_strain.crystals.gaas_004_10kev_300k import (  # noqa: E402
 from xrd_strain.crystals.gaas_004_dynamical import (  # noqa: E402
     xrd_slab_gaas_lowmem_with_constants,
 )
+from xrd_strain.crystals.ge_004_10kev_300k import (  # noqa: E402
+    ge_004_10kev_300k_constants,
+)
+from xrd_strain.crystals.insb_004_10kev_300k import (  # noqa: E402
+    insb_004_10kev_300k_constants,
+)
 from xrd_strain.crystals.si_004_10kev_300k import (  # noqa: E402
     si_004_10kev_300k_constants,
 )
@@ -107,6 +113,28 @@ CASES = [
         [(100, 1e-3)],
     ),
     ("Si", xu.materials.Si, si_004_10kev_300k_constants(), "si_004_10kev", []),
+    ("Ge", xu.materials.Ge, ge_004_10kev_300k_constants(), "ge_004_10kev", []),
+    (
+        "Ge",
+        xu.materials.Ge,
+        ge_004_10kev_300k_constants(),
+        "ge_004_10kev",
+        [(100, 1e-3)],
+    ),
+    (
+        "InSb",
+        xu.materials.InSb,
+        insb_004_10kev_300k_constants(),
+        "insb_004_10kev",
+        [],
+    ),
+    (
+        "InSb",
+        xu.materials.InSb,
+        insb_004_10kev_300k_constants(),
+        "insb_004_10kev",
+        [(100, 1e-3)],
+    ),
 ]
 
 

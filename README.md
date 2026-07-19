@@ -13,8 +13,18 @@ Compute X-ray diffraction rocking curves from depth-dependent strain profiles. S
   Sci. Rep. Fig. 2 (Cr/Si). GID_sl-checked; not the package default. See
   [`docs/CONSTANTS_PROVENANCE_SI.md`](docs/CONSTANTS_PROVENANCE_SI.md) and
   [`docs/FIG2_FORWARD.md`](docs/FIG2_FORWARD.md).
+- **`ge_004_10kev`** — Ge (004), 10 keV, 300 K. Audited diamond structure
+  factors; validated against GID_sl/X0h and xrayutilities. See
+  [`docs/CONSTANTS_PROVENANCE_GE.md`](docs/CONSTANTS_PROVENANCE_GE.md).
+- **`insb_004_10kev`** — InSb (004), 10 keV, 300 K. Audited zincblende
+  factors with explicit high-absorption / Debye-Waller caveats; validated
+  against GID_sl/X0h and xrayutilities. See
+  [`docs/CONSTANTS_PROVENANCE_INSB.md`](docs/CONSTANTS_PROVENANCE_INSB.md).
 - **`gaas_004_10kev_legacy`** — notebook-faithful constants and \(F_0=F_h\)
   approximation, retained only for exact archival reproduction.
+
+When `--angle-min/--angle-max` are omitted, the scan is centered on the
+selected calculator's Bragg angle (important for InSb near 22.5°).
 
 ## Instrument models
 
@@ -56,10 +66,14 @@ python scripts/run.py \
 
 | Future work | Where to add |
 |-------------|--------------|
-| Si, Ge, InSb substrates | `src/xrd_strain/crystals/` + `register_crystal()` |
+| Additional substrates | `src/xrd_strain/crystals/` + `register_crystal()` |
 | Other reflections / energies | new crystal calculator modules |
 | Grazing-incidence or other geometries | extend calculator interface in `crystals/base.py` |
 | Different instrument/detector models | `src/xrd_strain/detector/` + a branch in `pipeline.run_xrd` |
+
+The boundary between today's fixed four-material scope and later
+energy/reflection/cut generalization is documented in
+[`docs/SCOPE_AND_GENERALIZATION.md`](docs/SCOPE_AND_GENERALIZATION.md).
 
 ## Input format
 
@@ -110,7 +124,7 @@ See
 [`docs/FIG3_GID_SL_BENCHMARK.md`](docs/FIG3_GID_SL_BENCHMARK.md).
 
 Tier-4 second independent code — `xrayutilities` DynamicalModel — cross-checks
-both GaAs and Si (004):
+GaAs, Si, Ge, and InSb (004):
 
 ```bash
 pip install -e '.[external]'   # needs OpenMP to build xrayutilities; see docs
@@ -118,6 +132,15 @@ python scripts/benchmark_xrayutilities.py
 ```
 
 See [`docs/XU_BENCHMARK.md`](docs/XU_BENCHMARK.md).
+
+The Ge/InSb Stepanov GID_sl/X0h benchmark:
+
+```bash
+python scripts/benchmark_gid_sl_ge_insb.py
+```
+
+See
+[`docs/GID_SL_GE_INSB_BENCHMARK.md`](docs/GID_SL_GE_INSB_BENCHMARK.md).
 
 ## Paper reproduction
 

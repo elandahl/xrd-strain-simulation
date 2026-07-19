@@ -1,0 +1,76 @@
+{
+  "reference": "Stepanov GID_sl/X0h database, (004), 10 keV, sigma, symmetric Bragg, no instrument",
+  "materials": {
+    "Ge": {
+      "calculator": "ge_004_10kev",
+      "cases": {
+        "perfect": {
+          "log10_rms_diff": 0.005116740737260223,
+          "log10_max_abs_diff": 0.09009027193111502,
+          "log10_correlation": 0.9999844384096721,
+          "production_peak_arcsec": 2.2000008,
+          "gid_sl_peak_arcsec": 2.25,
+          "production_peak_reflectivity": 0.9746188766146561,
+          "gid_sl_peak_reflectivity": 0.97397032,
+          "passed": true
+        },
+        "uniform_layer": {
+          "log10_rms_diff": 0.004781140273354897,
+          "log10_max_abs_diff": 0.0896345042347476,
+          "log10_correlation": 0.9999907603275353,
+          "production_peak_arcsec": 2.25,
+          "gid_sl_peak_arcsec": 2.25,
+          "production_peak_reflectivity": 0.9491341605115947,
+          "gid_sl_peak_reflectivity": 0.95042841,
+          "passed": true
+        },
+        "two_step": {
+          "log10_rms_diff": 0.004489945784192753,
+          "log10_max_abs_diff": 0.0882810995439979,
+          "log10_correlation": 0.9999753786232503,
+          "production_peak_arcsec": 2.25,
+          "gid_sl_peak_arcsec": 2.25,
+          "production_peak_reflectivity": 0.9516016657976647,
+          "gid_sl_peak_reflectivity": 0.95272529,
+          "passed": true
+        }
+      }
+    },
+    "InSb": {
+      "calculator": "insb_004_10kev",
+      "cases": {
+        "perfect": {
+          "log10_rms_diff": 0.028994602148785853,
+          "log10_max_abs_diff": 0.06287105764674694,
+          "log10_correlation": 0.9999242397732382,
+          "production_peak_arcsec": 2.6500015,
+          "gid_sl_peak_arcsec": 2.7999992,
+          "production_peak_reflectivity": 0.9004810237216846,
+          "gid_sl_peak_reflectivity": 0.87901814,
+          "passed": true
+        },
+        "uniform_layer": {
+          "log10_rms_diff": 0.028764172750406047,
+          "log10_max_abs_diff": 0.0670190279624241,
+          "log10_correlation": 0.9999895943254234,
+          "production_peak_arcsec": 2.5,
+          "gid_sl_peak_arcsec": 2.75,
+          "production_peak_reflectivity": 0.804276731805467,
+          "gid_sl_peak_reflectivity": 0.78125924,
+          "passed": true
+        },
+        "two_step": {
+          "log10_rms_diff": 0.029852069033182486,
+          "log10_max_abs_diff": 0.06595875579059274,
+          "log10_correlation": 0.9999605408878518,
+          "production_peak_arcsec": 2.75,
+          "gid_sl_peak_arcsec": 2.75,
+          "production_peak_reflectivity": 0.8094996305635423,
+          "gid_sl_peak_reflectivity": 0.78658235,
+          "passed": true
+        }
+      }
+    }
+  },
+  "passed": true
+}

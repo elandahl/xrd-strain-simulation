@@ -42,8 +42,18 @@ def main() -> None:
         default=1.8,
         help="Gaussian FWHM in arcsec for --instrument aps_7idc (default 1.8)",
     )
-    parser.add_argument("--angle-min", type=float, default=25.98)
-    parser.add_argument("--angle-max", type=float, default=26.08)
+    parser.add_argument(
+        "--angle-min",
+        type=float,
+        default=None,
+        help="Scan minimum in degrees (default: crystal-specific Bragg angle - 0.05°)",
+    )
+    parser.add_argument(
+        "--angle-max",
+        type=float,
+        default=None,
+        help="Scan maximum in degrees (default: crystal-specific Bragg angle + 0.05°)",
+    )
     parser.add_argument("--n-points", type=int, default=100)
     parser.add_argument(
         "--output",
